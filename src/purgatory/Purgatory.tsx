@@ -23,7 +23,7 @@ function Purgatory() {
         <Stack direction="row" spacing={1}>
             {purgatoryItems?.map(item => {
                 return (
-                    <PurgatoryItem id={item.id} meta={item.meta}/>
+                    <PurgatoryItem key = {item.id.toString()} id={item.id} meta={item.meta}/>
                 )
             })}
         </Stack>
