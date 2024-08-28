@@ -30,8 +30,9 @@ export default function PurgatoryItem(item: PurgatoryItemModel) {
     }
 
     return (
-        <Grid container spacing={1}>
-            <Stack direction="column" spacing={1} paddingTop={5}>
+        <Grid container spacing={0} paddingTop={5} width={550}>
+            <img src={"http://localhost:8080/private/comics/purgatory/file/" + item.id + "/0"} alt="cover" width={270}/>
+            <Stack direction="column" spacing={1} paddingTop={0}>
                 {innerItem.map(i => {
                     return (
                         <ListItem key={i.title}>

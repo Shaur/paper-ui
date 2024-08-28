@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Stack} from "@mui/material";
 import axios from "axios";
 import PurgatoryItem from "./PurgatoryItem";
 import {PurgatoryItemModel} from "./model";
+import PurgatoryFileUpload from "./PurgatoryFileUpload";
+import Grid2 from "@mui/material/Unstable_Grid2";
 
 function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
     let token = localStorage.getItem("token")
@@ -19,14 +20,21 @@ function Purgatory() {
         getItems(setPurgatoryItems)
     }, [])
 
+    function handleFileUploaded() {
+        getItems(setPurgatoryItems)
+    }
+
     return (
-        <Stack direction="row" spacing={1}>
-            {purgatoryItems?.map(item => {
-                return (
-                    <PurgatoryItem key = {item.id.toString()} id={item.id} meta={item.meta}/>
-                )
-            })}
-        </Stack>
+        <Grid2>
+            <PurgatoryFileUpload onFileUploaded = {handleFileUploaded}/>
+            <Grid2 container direction="row">
+                {purgatoryItems?.map(item => {
+                    return (
+                        <PurgatoryItem key={item.id.toString()} id={item.id} meta={item.meta}/>
+                    )
+                })}
+            </Grid2>
+        </Grid2>
     );
 }
 
