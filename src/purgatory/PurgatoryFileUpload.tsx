@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Button, Stack, TextField} from "@mui/material";
 import axios from "axios";
 
-function PurgatoryFileUpload(attributes: PurgatoryFileUploadAttributes) {
+function PurgatoryFileUpload(props: PurgatoryFileUploadProps) {
 
     const [files, setFiles] = useState<FileList | null>(null)
 
@@ -33,7 +33,7 @@ function PurgatoryFileUpload(attributes: PurgatoryFileUploadAttributes) {
         })
             .then(_ => {
                 setFiles(null)
-                attributes.onFileUploaded()
+                props.onFileUploaded()
             })
             .catch(reason => console.log(reason))
     }
@@ -46,7 +46,7 @@ function PurgatoryFileUpload(attributes: PurgatoryFileUploadAttributes) {
     )
 }
 
-interface PurgatoryFileUploadAttributes {
+interface PurgatoryFileUploadProps {
     onFileUploaded: () => void
 }
 

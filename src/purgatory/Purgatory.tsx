@@ -11,6 +11,7 @@ function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
         .then((response) => {
             onSuccess(response.data)
         })
+        .catch(reason => localStorage.removeItem("token"))
 }
 
 function Purgatory() {
@@ -20,17 +21,23 @@ function Purgatory() {
         getItems(setPurgatoryItems)
     }, [])
 
+    function handleOnReject(id: Number) {
+        setPurgatoryItems(state => {
+            return state?.filter(value => value.id !== id)
+        })
+    }
+
     function handleFileUploaded() {
         getItems(setPurgatoryItems)
     }
 
     return (
         <Grid2>
-            <PurgatoryFileUpload onFileUploaded = {handleFileUploaded}/>
+            <PurgatoryFileUpload onFileUploaded={handleFileUploaded}/>
             <Grid2 container direction="row">
                 {purgatoryItems?.map(item => {
                     return (
-                        <PurgatoryItem key={item.id.toString()} id={item.id} meta={item.meta}/>
+                        <PurgatoryItem key={item.id.toString()} item={item} onReject={id => handleOnReject(id)}/>
                     )
                 })}
             </Grid2>
