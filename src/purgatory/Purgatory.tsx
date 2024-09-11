@@ -11,7 +11,7 @@ function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
         .then((response) => {
             onSuccess(response.data)
         })
-        .catch(reason => localStorage.removeItem("token"))
+        .catch(_ => localStorage.removeItem("token"))
 }
 
 function Purgatory() {
@@ -21,7 +21,7 @@ function Purgatory() {
         getItems(setPurgatoryItems)
     }, [])
 
-    function handleOnReject(id: Number) {
+    function handleItemResolve(id: Number) {
         setPurgatoryItems(state => {
             return state?.filter(value => value.id !== id)
         })
@@ -37,7 +37,11 @@ function Purgatory() {
             <Grid2 container direction="row">
                 {purgatoryItems?.map(item => {
                     return (
-                        <PurgatoryItem key={item.id.toString()} item={item} onReject={id => handleOnReject(id)}/>
+                        <PurgatoryItem
+                            key={item.id.toString()}
+                            item={item}
+                            handleDecision={id => handleItemResolve(id)}
+                        />
                     )
                 })}
             </Grid2>

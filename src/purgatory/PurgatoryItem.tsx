@@ -1,65 +1,23 @@
 import React, {useState} from "react";
-import {Button, Grid, ListItem, Stack} from "@mui/material";
+import {Autocomplete, Button, Grid, ListItem, Stack, TextField} from "@mui/material";
 import {StackProps} from "@mui/material/Stack/Stack";
 import {PurgatoryItemModel} from "./model";
-import {rejectPurgatoryItem} from "../api";
+import {rejectPurgatoryItem, approvePurgatoryItem, findBySeriesTitle} from "../api";
 import './purgatory.css'
-import EditionField from "../common/EditionField";
+import {ApproveRequest} from "../comics/model";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 interface PurgatoryItemProps {
     item: PurgatoryItemModel,
-    onReject: (id: Number) => void
+    handleDecision: (id: Number) => void
 }
 
 export default function PurgatoryItem(props: PurgatoryItemProps) {
 
-    interface ItemViewModel {
-        value: any,
-        title: string,
-        type: string,
-        onChange: (value: any) => void
-    }
-
-    const innerItem: ItemViewModel[] = [
-        {
-            value: props.item.meta.seriesName,
-            title: "Title",
-            type: "text",
-            onChange: (v => setUpdateRequest(state => Object.assign(state, {title: v})))
-        },
-        {
-            value: props.item.meta.number,
-            title: "Number",
-            type: "text",
-            onChange: (v => setUpdateRequest(state => Object.assign(state, {number: v})))
-        },
-        {
-            value: props.item.meta.publisher,
-            title: "Publisher",
-            type: "text",
-            onChange: (v => setUpdateRequest(state => Object.assign(state, {publisher: v})))
-        },
-        {
-            value: props.item.meta.summary,
-            title: "Summary",
-            type: "text",
-            onChange: (v => setUpdateRequest(state => Object.assign(state, {summary: v})))
-        },
-        {
-            value: props.item.meta.pagesCount,
-            title: "Pages count",
-            type: "number",
-            onChange: (v => setUpdateRequest(state => Object.assign(state, {pagesCount: v})))
-        },
-        {
-            value: new Date().toLocaleDateString(),
-            title: "Publication date",
-            type: "date",
-            onChange: (v => setUpdateRequest(state => Object.assign(state, {publicationDate: v})))
-        }
-    ]
-
-    let [updateRequest, setUpdateRequest] = useState({
+    const [viewModelState, setViewModelState] = useState({
+        seriesId: null,
         title: props.item.meta.seriesName,
         publisher: props.item.meta.publisher,
         number: props.item.meta.number,
@@ -68,38 +26,106 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
         pagesCount: props.item.meta.pagesCount
     })
 
-    function onReject(id: Number) {
-        rejectPurgatoryItem(id, props.onReject)
+    const [seriesOptions, setSeriesOptions] = useState<any[]>([])
+
+    function onReject() {
+        rejectPurgatoryItem(props.item.id, props.handleDecision)
     }
 
     function onApprove() {
-        console.log(updateRequest)
+        const request: ApproveRequest = {
+            id: props.item.id,
+            seriesUpdate: {
+                id: viewModelState.seriesId,
+                title: viewModelState.title,
+                publisher: viewModelState.publisher
+            },
+            issueUpdate: {
+                number: viewModelState.number,
+                summary: viewModelState.summary,
+                publicationDate: viewModelState.publicationDate,
+                pagesCount: viewModelState.pagesCount
+            }
+        }
+
+        approvePurgatoryItem(request, props.handleDecision)
+    }
+
+    function updateStateField(value: object) {
+        setViewModelState(state => Object.assign(state, value))
+    }
+
+    function setOptions() {
+        findBySeriesTitle(viewModelState.title, (data) => {
+            setSeriesOptions(data)
+        })
     }
 
     return (
-        <Grid container spacing={0} paddingTop={5} width={600}>
-            <img
-                src={`http://localhost:8080/private/comics/purgatory/file/${props.item.id}/0`}
-                alt="cover"
-                className='Сover'
-            />
-            <Stack direction="column" spacing={1} paddingTop={0}>
-                {innerItem.map(i => {
-                    return (
-                        <ListItem key={i.title}>
-                            <EditionField title={i.title} defaultValue={i.value} type={i.type} onChange={i.onChange}/>
-                        </ListItem>
-                    )
-                })}
+        <Grid container spacing={0} paddingTop={5} width={650}>
+            <Stack direction="column" spacing={1}>
+                <ListItem>
+                    <img
+                        src={`http://localhost:8080/private/comics/purgatory/file/${props.item.id}/0`}
+                        alt="cover"
+                        className='Сover'
+                    />
+                </ListItem>
                 <ListItem>
                     <Actions
                         direction="row"
                         spacing={1}
-                        onReject={() => {
-                            onReject(props.item.id)
-                        }}
+                        onReject={onReject}
                         onApprove={onApprove}
                     />
+                </ListItem>
+            </Stack>
+
+            <Stack direction="column" spacing={1} paddingTop={0}>
+                <ListItem key="Title">
+                    <Autocomplete
+                        freeSolo={true}
+                        options={seriesOptions}
+                        getOptionLabel={(option) => option.title}
+                        onChange={(event: any, newValue: any | null) => {
+                            if (newValue === null) {
+                                updateStateField({seriesId: null, title: null})
+                            } else {
+                                updateStateField({seriesId: newValue.id, title: newValue.title})
+                            }
+                        }}
+                        onInputChange={(_, newInputValue) => {
+                            updateStateField({title: newInputValue})
+                            setOptions()
+                        }}
+                        defaultValue={viewModelState}
+                        sx={{width: 300}}
+                        renderInput={(params) => <TextField {...params}
+                                                            label={`Title ${viewModelState.seriesId === null ? 'unlinked' : 'linked'}`}
+                                                            variant="outlined"/>}
+                    />
+                </ListItem>
+                <ListItem key="Number">
+                    <TextField id="Number" label="Number" variant="outlined" value={viewModelState.number}
+                               onChange={v => updateStateField({number: v.currentTarget.value})}/>
+                </ListItem>
+                <ListItem key="Publisher">
+                    <TextField id="Publisher" label="Publisher" variant="outlined" value={viewModelState.publisher}
+                               onChange={v => updateStateField({publisher: v.currentTarget.value})}/>
+                </ListItem>
+                <ListItem key="Summary">
+                    <TextField id="Summary" label="Summary" variant="outlined" multiline={true} sx={{width: 300}}
+                               value={viewModelState.summary}
+                               onChange={v => updateStateField({summary: v.currentTarget.value})}/>
+                </ListItem>
+                <ListItem key="Pages count">
+                    <TextField id="Pages count" label="Pages count" variant="outlined" value={viewModelState.pagesCount}
+                               onChange={v => updateStateField({pagesCount: v.currentTarget.value})}/>
+                </ListItem>
+                <ListItem key="Publication date">
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker label="Publication date" value={dayjs(viewModelState.publicationDate)}/>
+                    </LocalizationProvider>
                 </ListItem>
             </Stack>
         </Grid>
