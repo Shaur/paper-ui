@@ -16,15 +16,12 @@ interface PurgatoryItemProps {
 
 export default function PurgatoryItem(props: PurgatoryItemProps) {
 
-    const [viewModelState, setViewModelState] = useState({
-        seriesId: null,
-        title: props.item.meta.seriesName,
-        publisher: props.item.meta.publisher,
-        number: props.item.meta.number,
-        summary: props.item.meta.summary,
-        publicationDate: new Date(),
-        pagesCount: props.item.meta.pagesCount
-    })
+    const [viewModelState, setViewModelState] = useState({seriesId: null, title: props.item.meta.seriesName})
+    const [number, setNumber] = useState(props.item.meta.number)
+    const [summary, setSummary] = useState(props.item.meta.summary)
+    const [publicationDate, setPublicationDate] = useState(new Date())
+    const [pagesCount, setPagesCount] = useState(props.item.meta.pagesCount)
+    const [publisher, setPublisher] = useState(props.item.meta.publisher)
 
     const [seriesOptions, setSeriesOptions] = useState<any[]>([])
 
@@ -38,21 +35,17 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
             seriesUpdate: {
                 id: viewModelState.seriesId,
                 title: viewModelState.title,
-                publisher: viewModelState.publisher
+                publisher: publisher
             },
             issueUpdate: {
-                number: viewModelState.number,
-                summary: viewModelState.summary,
-                publicationDate: viewModelState.publicationDate,
-                pagesCount: viewModelState.pagesCount
+                number: number,
+                summary: summary,
+                publicationDate: publicationDate,
+                pagesCount: pagesCount
             }
         }
 
         approvePurgatoryItem(request, props.handleDecision)
-    }
-
-    function updateStateField(value: object) {
-        setViewModelState(state => Object.assign(state, value))
     }
 
     function setOptions() {
@@ -87,15 +80,18 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                         freeSolo={true}
                         options={seriesOptions}
                         getOptionLabel={(option) => option.title}
-                        onChange={(event: any, newValue: any | null) => {
+                        onChange={(_: any, newValue: any | null) => {
                             if (newValue === null) {
-                                updateStateField({seriesId: null, title: null})
+                                setViewModelState(state => Object.assign(state, {seriesId: null, title: null}))
                             } else {
-                                updateStateField({seriesId: newValue.id, title: newValue.title})
+                                setViewModelState(state => Object.assign(state, {
+                                    seriesId: newValue.id,
+                                    title: newValue.title
+                                }))
                             }
                         }}
                         onInputChange={(_, newInputValue) => {
-                            updateStateField({title: newInputValue})
+                            setViewModelState(state => Object.assign(state, {title: newInputValue}))
                             setOptions()
                         }}
                         defaultValue={viewModelState}
@@ -106,25 +102,25 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                     />
                 </ListItem>
                 <ListItem key="Number">
-                    <TextField id="Number" label="Number" variant="outlined" value={viewModelState.number}
-                               onChange={v => updateStateField({number: v.currentTarget.value})}/>
+                    <TextField id="Number" label="Number" variant="outlined" value={number}
+                               onChange={v => setNumber(v.currentTarget.value)}/>
                 </ListItem>
                 <ListItem key="Publisher">
-                    <TextField id="Publisher" label="Publisher" variant="outlined" value={viewModelState.publisher}
-                               onChange={v => updateStateField({publisher: v.currentTarget.value})}/>
+                    <TextField id="Publisher" label="Publisher" variant="outlined" value={publisher}
+                               onChange={v => setPublisher(v.currentTarget.value)}/>
                 </ListItem>
                 <ListItem key="Summary">
                     <TextField id="Summary" label="Summary" variant="outlined" multiline={true} sx={{width: 300}}
-                               value={viewModelState.summary}
-                               onChange={v => updateStateField({summary: v.currentTarget.value})}/>
+                               value={summary}
+                               onChange={v => setSummary(v.currentTarget.value)}/>
                 </ListItem>
                 <ListItem key="Pages count">
-                    <TextField id="Pages count" label="Pages count" variant="outlined" value={viewModelState.pagesCount}
-                               onChange={v => updateStateField({pagesCount: v.currentTarget.value})}/>
+                    <TextField id="Pages count" label="Pages count" variant="outlined" value={pagesCount}
+                               onChange={v => setPagesCount(Number.parseInt(v.currentTarget.value))}/>
                 </ListItem>
                 <ListItem key="Publication date">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker label="Publication date" value={dayjs(viewModelState.publicationDate)}/>
+                        <DatePicker label="Publication date" value={dayjs(publicationDate)}/>
                     </LocalizationProvider>
                 </ListItem>
             </Stack>
