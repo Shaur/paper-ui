@@ -13,7 +13,12 @@ export function approvePurgatoryItem(request: ApproveRequest, callback: (id: Num
 }
 
 export function findBySeriesTitle(title: String, callback: (data: any) => void) {
-    axios.get(`http://localhost:8080/series?title=${title}`, _headers())
+    axios.get(`http://localhost:8080/series/autocomplete?title=${title}`, _headers())
+        .then(response => callback(response.data))
+}
+
+export function findSeries(callback: (data: any) => void) {
+    axios.get(`http://localhost:8080/series`, _headers())
         .then(response => callback(response.data))
 }
 

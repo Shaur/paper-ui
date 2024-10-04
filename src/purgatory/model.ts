@@ -10,3 +10,11 @@ export interface PurgatoryItemModel {
     id: Number,
     meta: ArchiveMeta
 }
+
+export interface SeriesCatalogItemModel {
+    id: Number,
+    title: string,
+    publisher: string,
+    issuesCount: Number,
+    cover: string
+}

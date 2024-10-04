@@ -3,6 +3,7 @@ import {useState} from 'react';
 import Purgatory from "./purgatory/Purgatory";
 import Login from "./login/Login";
 import {Box, Tab, Tabs} from "@mui/material";
+import SeriesPanel from "./series/SeriesPanel";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -51,7 +52,7 @@ function App() {
                     <Purgatory/>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
-                    Item Two
+                    <SeriesPanel/>
                 </CustomTabPanel>
             </Box>
         ) : (
