@@ -10,7 +10,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM bitnami/nginx:latest
-COPY conf/default.conf /opt/bitnami/nginx/conf/server_blocks/server.conf
-COPY --from=build /app/build/ /app
+FROM nginx:latest
+COPY conf/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/build/ /usr/share/nginx/html
 EXPOSE 8080
