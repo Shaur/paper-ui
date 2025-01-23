@@ -1,4 +1,4 @@
-FROM node:14-alpine AS build
+FROM node:23-alpine AS build
 ARG NO_PROXY
 ARG HTTP_PROXY
 ARG HTTPS_PROXY

@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        cleanCheckout(scm)
+        checkout scm
       }
     }
 
