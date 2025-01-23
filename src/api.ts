@@ -22,6 +22,11 @@ export function findSeries(callback: (data: any) => void) {
         .then(response => callback(response.data))
 }
 
+export function getIssues(seriesId: Number, callback: (data: any) => void) {
+    axios.get(`http://localhost:8080/issue?seriesId=${seriesId}`, _headers())
+        .then(response => callback(response.data))
+}
+
 function _headers() {
     let token = localStorage.getItem("token")
     return {headers: {"Authorization": "Bearer " + token}}

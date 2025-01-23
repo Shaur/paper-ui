@@ -1,0 +1,39 @@
+import {useParams} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {IssueCatalogItemModel} from "../purgatory/model";
+import {getIssues} from "../api";
+import {Badge, Stack} from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2";
+
+function SeriesItemView() {
+    let {id} = useParams()
+    let [items, setItems] = useState<IssueCatalogItemModel[]>()
+
+    useEffect(() => {
+        getIssues(Number.parseInt(id as string), data => setItems(data))
+    }, []);
+
+    return (
+        <Grid2 container direction="row">
+            {items?.map(item => {
+                return (
+                    <Stack direction="column" spacing={1}>
+                        <Badge badgeContent={item.pagesCount.valueOf()} color="primary">
+                            <img
+                                src={`http://localhost:8080/pages/${item.id}/0`}
+                                alt="cover"
+                                className='Сover'
+                            />
+                        </Badge>
+                        <div className='Series-Title'>
+                            <a href={`/series/${item.id}`}>{item.id.toString()}</a>
+                        </div>
+                    </Stack>
+                )
+            })}
+        </Grid2>
+    )
+
+}
+
+export default SeriesItemView;

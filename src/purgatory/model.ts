@@ -18,3 +18,12 @@ export interface SeriesCatalogItemModel {
     issuesCount: Number,
     cover: string
 }
+
+export interface IssueCatalogItemModel {
+    id: Number,
+    number: string,
+    summary: string,
+    seriesId: Number,
+    pagesCount: Number,
+    publicationDate: Date
+}

@@ -1,0 +1,16 @@
+FROM node:14-alpine AS build
+ARG NO_PROXY
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ARG NPM_CONFIG_REGISTRY
+RUN mkdir app
+WORKDIR app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM bitnami/nginx:latest
+COPY conf/default.conf /opt/bitnami/nginx/conf/server_blocks/server.conf
+COPY --from=build /app/build/ /app
+EXPOSE 8080

@@ -27,7 +27,9 @@ function SeriesPanel() {
                                 className='Сover'
                             />
                         </Badge>
-                        <div className='Series-Title'>{item.title}</div>
+                        <div className='Series-Title'>
+                            <a href={`/series/${item.id}`}>{item.title}</a>
+                        </div>
                     </Stack>
                 )
             })}
