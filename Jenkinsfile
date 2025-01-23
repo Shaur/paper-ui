@@ -28,7 +28,9 @@ pipeline {
     stage('Deploy version') {
       steps {
         script {
-          sh 'helm upgrade --install paper-ui paper-chart'
+          withKubeConfig([serverUrl: "${CLUSTER_URL}", namespace: "default"]) {
+            sh 'helm upgrade --install paper-ui paper-chart'
+          }
         }
       }
     }
