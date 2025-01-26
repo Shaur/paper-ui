@@ -15,7 +15,8 @@ function Login(props: LoginProps) {
     const [password, setPassword] = useState("")
 
     function login() {
-        axios.post<TokenResponse>("http://localhost:8080/customer/login", {username: username, password: password})
+        let serverUrl = process.env.SERVER_URL
+        axios.post<TokenResponse>(`${serverUrl}/customer/login`, {username: username, password: password})
             .then((response) => {
                 localStorage.setItem("token", response.data.token)
                 props.onClick()
