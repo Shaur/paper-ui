@@ -22,7 +22,9 @@ function Login(props: LoginProps) {
                 localStorage.setItem("token", response.data.token)
                 props.onClick()
             })
-            .catch((reason) => {console.log(reason)});
+            .catch((reason) => {
+                console.log(reason)
+            });
     }
 
     return (
