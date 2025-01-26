@@ -22,7 +22,7 @@ function SeriesPanel() {
                     <Stack direction="column" spacing={1}>
                         <Badge badgeContent={item.issuesCount.valueOf()} color="primary">
                             <img
-                                src={`http://localhost:8080${item.cover}`}
+                                src={`${process.env.REACT_APP_SERVER_URL}${item.cover}`}
                                 alt="cover"
                                 className='Сover'
                             />

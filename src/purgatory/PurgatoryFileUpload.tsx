@@ -24,8 +24,8 @@ function PurgatoryFileUpload(props: PurgatoryFileUploadProps) {
             formData.append('file', files[i]);
         }
 
-
-        axios.postForm("http://localhost:8080/private/comics", formData, {
+        let serverUrl = process.env.REACT_APP_SERVER_URL
+        axios.postForm(`${serverUrl}/private/comics`, formData, {
             headers: {
                 "Authorization": "Bearer " + token,
                 "Content-Type": "multipart/form-data"

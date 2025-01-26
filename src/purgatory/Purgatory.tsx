@@ -7,7 +7,8 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 
 function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
     let token = localStorage.getItem("token")
-    axios.get<PurgatoryItemModel[]>("http://localhost:8080/private/comics/purgatory", {headers: {"Authorization": "Bearer " + token}})
+    let serverUrl = process.env.REACT_APP_SERVER_URL
+    axios.get<PurgatoryItemModel[]>(`${serverUrl}/private/comics/purgatory`, {headers: {"Authorization": "Bearer " + token}})
         .then((response) => {
             onSuccess(response.data)
         })

@@ -59,7 +59,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
             <Stack direction="column" spacing={1}>
                 <ListItem>
                     <img
-                        src={`http://localhost:8080/private/comics/purgatory/file/${props.item.id}/0`}
+                        src={`${process.env.REACT_APP_SERVER_URL}/private/comics/purgatory/file/${props.item.id}/0`}
                         alt="cover"
                         className='Сover'
                     />

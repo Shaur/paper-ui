@@ -20,7 +20,7 @@ function SeriesItemView() {
                     <Stack direction="column" spacing={1}>
                         <Badge badgeContent={item.pagesCount.valueOf()} color="primary">
                             <img
-                                src={`http://localhost:8080/pages/${item.id}/0`}
+                                src={`${process.env.REACT_APP_SERVER_URL}/pages/${item.id}/0`}
                                 alt="cover"
                                 className='Сover'
                             />
