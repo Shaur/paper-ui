@@ -16,6 +16,7 @@ function Login(props: LoginProps) {
 
     function login() {
         let serverUrl = process.env.SERVER_URL
+        console.log(`Server url ${serverUrl}`)
         axios.post<TokenResponse>(`${serverUrl}/customer/login`, {username: username, password: password})
             .then((response) => {
                 localStorage.setItem("token", response.data.token)
