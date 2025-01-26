@@ -1,7 +1,7 @@
 import axios from "axios";
 import {ApproveRequest} from "./comics/model";
 
-let serverUrl = process.env.SERVER_URL
+let serverUrl = process.env.REACT_APP_SERVER_URL
 
 export function rejectPurgatoryItem(id: Number, callback:(id: Number) => void) {
     let token = localStorage.getItem("token")

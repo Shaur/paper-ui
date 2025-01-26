@@ -15,7 +15,7 @@ function Login(props: LoginProps) {
     const [password, setPassword] = useState("")
 
     function login() {
-        let serverUrl = process.env.SERVER_URL
+        let serverUrl = process.env.REACT_APP_SERVER_URL
         console.log(`Server url ${serverUrl}`)
         axios.post<TokenResponse>(`${serverUrl}/customer/login`, {username: username, password: password})
             .then((response) => {
