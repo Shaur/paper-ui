@@ -30,6 +30,7 @@ pipeline {
         script {
           withKubeConfig([serverUrl: "${CLUSTER_URL}", namespace: "default"]) {
             sh 'helm upgrade --install paper-ui paper-chart'
+            sh 'kubectl rollout restart deployment paper-ui'
           }
         }
       }
