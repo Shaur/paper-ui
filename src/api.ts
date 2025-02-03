@@ -30,6 +30,16 @@ export function getIssues(seriesId: Number, callback: (data: any) => void) {
         .then(response => callback(response.data))
 }
 
+export function subscribe(seriesId: Number, callback: () => void) {
+    axios.put(`${serverUrl}/series/${seriesId}/subscribe`, {}, _headers())
+        .then(callback)
+}
+
+export function unsubscribe(seriesId: Number, callback: () => void) {
+    axios.put(`${serverUrl}/series/${seriesId}/unsubscribe`, {}, _headers())
+        .then(callback)
+}
+
 function _headers() {
     let token = localStorage.getItem("token")
     return {headers: {"Authorization": "Bearer " + token}}

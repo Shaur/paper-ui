@@ -16,7 +16,8 @@ export interface SeriesCatalogItemModel {
     title: string,
     publisher: string,
     issuesCount: Number,
-    cover: string
+    cover: string,
+    subscribed: boolean
 }
 
 export interface IssueCatalogItemModel {

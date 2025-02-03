@@ -2,7 +2,7 @@ import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {IssueCatalogItemModel} from "../purgatory/model";
 import {getIssues} from "../api";
-import {Badge, Stack} from "@mui/material";
+import {Badge, Button, Stack} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
 function SeriesItemView() {
