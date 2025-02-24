@@ -26,7 +26,7 @@ export function findSeries(callback: (data: any) => void) {
 }
 
 export function getIssues(seriesId: Number, callback: (data: any) => void) {
-    axios.get(`${serverUrl}/issue?seriesId=${seriesId}`, _headers())
+    axios.get(`${serverUrl}/series/${seriesId}/issues`, _headers())
         .then(response => callback(response.data))
 }
 
