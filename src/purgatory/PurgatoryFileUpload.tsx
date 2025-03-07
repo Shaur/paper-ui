@@ -7,7 +7,6 @@ function PurgatoryFileUpload(props: PurgatoryFileUploadProps) {
     const [files, setFiles] = useState<FileList | null>(null)
     const [progress, setProgress] = useState<number[]>([]);
 
-
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (e.target.files) {
             setFiles(e.target.files)
@@ -39,8 +38,12 @@ function PurgatoryFileUpload(props: PurgatoryFileUploadProps) {
                 }
             })
                 .then(_ => {
-                    setFiles(null)
-                    setProgress([])
+                    const allSuccess = progress.every(num => num === 100)
+                    progress.forEach(num => console.log(num))
+                    if (allSuccess) {
+                        setFiles(null)
+                        setProgress([])
+                    }
                     props.onFileUploaded()
                 })
                 .catch(reason => console.log(reason))

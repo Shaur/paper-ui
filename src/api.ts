@@ -20,8 +20,8 @@ export function findBySeriesTitle(title: String, callback: (data: any) => void) 
         .then(response => callback(response.data))
 }
 
-export function findSeries(callback: (data: any) => void) {
-    axios.get(`${serverUrl}/series`, _headers())
+export function findSeries(pageSize: Number, pageNumber: Number, callback: (data: any) => void) {
+    axios.get(`${serverUrl}/series?limit=${pageSize}&offset=${pageNumber}`, _headers())
         .then(response => callback(response.data))
 }
 

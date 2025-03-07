@@ -38,7 +38,13 @@
 }
 
 .Series-Title {
+  width: 260px;
   text-align: center;
+}
+
+.Series-Wrapper {
+  margin: 10px;
+  width: 260px;
 }
 
 /*.Cover {*/
