@@ -3,7 +3,7 @@ import axios from "axios";
 import PurgatoryItem from "./PurgatoryItem";
 import {PurgatoryItemModel} from "./model";
 import PurgatoryFileUpload from "./PurgatoryFileUpload";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid2 from "@mui/material/Grid2";
 
 function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
     let token = localStorage.getItem("token")

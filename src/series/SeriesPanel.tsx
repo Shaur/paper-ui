@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid2 from "@mui/material/Grid2";
 import {SeriesCatalogItemModel} from "../purgatory/model";
 import {findSeries} from "../api";
 import {Badge, Button, Stack} from "@mui/material";
@@ -23,7 +23,7 @@ function SeriesPanel() {
 
     function fetchSeries() {
         findSeries(20, pageNumber, data => setItems((prevState) => {
-            if (prevState.length == 0) {
+            if (prevState.length === 0) {
                 return data
             }
 
