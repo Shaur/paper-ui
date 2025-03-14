@@ -56,7 +56,7 @@ function SeriesPanel() {
                         <Stack direction="column" spacing={1} className='Series-Wrapper'>
                             <Badge badgeContent={item.issuesCount.valueOf()} color="primary">
                                 <img
-                                    src={`${process.env.REACT_APP_SERVER_URL}${item.cover}?size=MEDIUM`}
+                                    src={`${process.env.REACT_APP_SERVER_URL}${item.cover}?size=SMALL`}
                                     alt="cover"
                                     className='Сover'
                                     width={300}

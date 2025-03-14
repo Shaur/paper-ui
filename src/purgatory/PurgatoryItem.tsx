@@ -1,11 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
     Autocomplete,
     Button,
-    Grid,
     ListItem,
     Stack,
     TextField, Typography
@@ -19,6 +18,7 @@ import {ApproveRequest} from "../comics/model";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import Grid2 from "@mui/material/Grid2";
 
 interface PurgatoryItemProps {
     item: PurgatoryItemModel,
@@ -35,6 +35,10 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
     const [publisher, setPublisher] = useState(props.item.meta.publisher)
 
     const [seriesOptions, setSeriesOptions] = useState<any[]>([])
+
+    useEffect(() => {
+        setOptions()
+    }, []);
 
     function onReject() {
         rejectPurgatoryItem(props.item.id, props.handleDecision)
@@ -69,7 +73,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
         return Array.from(Array(end - start).keys()).map((i) => i + start);
     };
 
-    return <Grid container spacing={0} paddingTop={5} width={650}>
+    return <Grid2 container spacing={0} paddingTop={5} width={650}>
         <Stack direction="column" spacing={1}>
             <ListItem>
                 <img
@@ -91,6 +95,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
         <Stack direction="column" spacing={1} paddingTop={0}>
             <ListItem key="Title">
                 <Autocomplete
+                    value={viewModelState}
                     freeSolo={true}
                     options={seriesOptions}
                     getOptionLabel={(option) => option.title}
@@ -114,6 +119,26 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                                                         label={`Title ${viewModelState.seriesId === null ? 'unlinked' : 'linked'}`}
                                                         variant="outlined"/>}
                 />
+            </ListItem>
+            <ListItem key="Title suggestions">
+                <Accordion sx={{width: 300}} hidden={seriesOptions.length == 0}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon/>}
+                        aria-controls="panel2-content"
+                        id="panel2-header"
+                    >
+                        <Typography component="span">Suggestions</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        {seriesOptions.map(opt =>
+                            <div>{opt.title}
+                                <Button onClick={() =>
+                                    setViewModelState({...viewModelState, seriesId: opt.id, title: opt.title})
+                                }
+                                >Link</Button></div>
+                        )}
+                    </AccordionDetails>
+                </Accordion>
             </ListItem>
             <ListItem key="Number">
                 <TextField id="Number" label="Number" variant="outlined" value={number}
@@ -140,14 +165,14 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
         </Stack>
         <Accordion>
             <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={<ExpandMoreIcon/>}
                 aria-controls="panel2-content"
                 id="panel2-header"
             >
                 <Typography component="span">Pages</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <Grid direction={"row"}>
+                <Grid2 direction={"row"}>
                     {range(0, pagesCount.valueOf()).map(item =>
                         <img
                             src={`${process.env.REACT_APP_SERVER_URL}/private/comics/purgatory/file/${props.item.id}/${item}?size=SMALL`}
@@ -155,11 +180,11 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                             width={150}
                         />
                     )}
-                </Grid>
+                </Grid2>
             </AccordionDetails>
         </Accordion>
 
-    </Grid>
+    </Grid2>
 }
 
 interface ActionsProps extends StackProps {
