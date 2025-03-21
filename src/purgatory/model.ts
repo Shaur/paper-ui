@@ -3,7 +3,7 @@ export interface ArchiveMeta {
     number: string,
     summary: string,
     publisher: string,
-    pagesCount: Number
+    pagesCount: number
 }
 
 export interface PurgatoryItemModel {

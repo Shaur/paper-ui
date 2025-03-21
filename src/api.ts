@@ -10,6 +10,13 @@ export function rejectPurgatoryItem(id: Number, callback:(id: Number) => void) {
         .then(_ => callback(id))
 }
 
+export function deletePage(id: Number, number: number, callback:() => void) {
+    let token = localStorage.getItem("token")
+
+    axios.delete(`${serverUrl}/private/comics/purgatory/${id}/${number}`, {headers: {"Authorization": "Bearer " + token}})
+        .then(_ => callback())
+}
+
 export function approvePurgatoryItem(request: ApproveRequest, callback: (id: Number) => void) {
     axios.put(`${serverUrl}/private/comics/purgatory`, request, _headers())
         .then(_ => callback(request.id))

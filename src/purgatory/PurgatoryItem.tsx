@@ -5,14 +5,17 @@ import {
     AccordionSummary,
     Autocomplete,
     Button,
+    IconButton,
     ListItem,
     Stack,
-    TextField, Typography
+    TextField,
+    Typography
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {StackProps} from "@mui/material/Stack/Stack";
 import {PurgatoryItemModel} from "./model";
-import {rejectPurgatoryItem, approvePurgatoryItem, findBySeriesTitle} from "../api";
+import {rejectPurgatoryItem, approvePurgatoryItem, findBySeriesTitle, deletePage} from "../api";
 import './purgatory.css'
 import {ApproveRequest} from "../comics/model";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
@@ -39,6 +42,10 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
     useEffect(() => {
         setOptions()
     }, []);
+
+    useEffect(() => {
+
+    }, [pagesCount]);
 
     function onReject() {
         rejectPurgatoryItem(props.item.id, props.handleDecision)
@@ -75,7 +82,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
 
     return <Grid2 container spacing={0} paddingTop={5} width={650}>
         <Stack direction="column" spacing={1}>
-            <ListItem>
+            <ListItem key={pagesCount}>
                 <img
                     src={`${process.env.REACT_APP_SERVER_URL}/private/comics/purgatory/file/${props.item.id}/0`}
                     alt="cover"
@@ -172,13 +179,24 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                 <Typography component="span">Pages</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <Grid2 direction={"row"}>
-                    {range(0, pagesCount.valueOf()).map(item =>
-                        <img
-                            src={`${process.env.REACT_APP_SERVER_URL}/private/comics/purgatory/file/${props.item.id}/${item}?size=SMALL`}
-                            alt="cover"
-                            width={150}
-                        />
+                <Grid2 direction={"row"} key={pagesCount}>
+                    {range(0, pagesCount).map(item =>
+                        <IconButton
+                            aria-label="delete"
+                            onClick={() => {
+                                deletePage(props.item.id, item, () => {
+                                    setPagesCount((prevState) => prevState - 1)
+                                })
+                            }}
+                        >
+                            <img
+                                src={`${process.env.REACT_APP_SERVER_URL}/private/comics/purgatory/file/${props.item.id}/${item}?size=SMALL`}
+                                alt="cover"
+                                width={150}
+                                key={item}
+                            />
+                            <DeleteIcon/>
+                        </IconButton>
                     )}
                 </Grid2>
             </AccordionDetails>
