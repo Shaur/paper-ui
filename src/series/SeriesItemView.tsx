@@ -11,14 +11,14 @@ function SeriesItemView() {
 
     useEffect(() => {
         getIssues(Number.parseInt(id as string), data => setItems(data))
-    }, []);
+    }, [id]);
 
     return (
         <Grid2 container direction="row">
             {items?.map(item => {
                 return (
-                    <Stack direction="column" spacing={1}>
-                        <Badge badgeContent={item.pagesCount.valueOf()} color="primary">
+                    <Stack direction="column" spacing={1} padding={2}>
+                        <Badge badgeContent={item.pagesCount} color="primary">
                             <img
                                 src={`${process.env.REACT_APP_SERVER_URL}/pages/${item.id}/0`}
                                 alt="cover"
@@ -26,7 +26,7 @@ function SeriesItemView() {
                             />
                         </Badge>
                         <div className='Series-Title'>
-                            <a href={`/series/${item.id}`}>{item.id.toString()}</a>
+                            <a href={`/reader/${item.id}`}>{item.number}</a>
                         </div>
                     </Stack>
                 )

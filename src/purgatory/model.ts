@@ -25,6 +25,6 @@ export interface IssueCatalogItemModel {
     number: string,
     summary: string,
     seriesId: Number,
-    pagesCount: Number,
+    pagesCount: number,
     publicationDate: Date
 }

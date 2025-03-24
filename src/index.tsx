@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import SeriesItemView from "./series/SeriesItemView";
+import ReaderView from "./reader/ReaderView";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -16,6 +17,7 @@ root.render(
             <Routes>
                 <Route index path="/" element={<App/>}/>
                 <Route path="/series/:id" element={<SeriesItemView/>}/>
+                <Route path="/reader/:id" element={<ReaderView/>}/>
             </Routes>
         </BrowserRouter>
     </React.StrictMode>

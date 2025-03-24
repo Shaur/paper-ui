@@ -47,6 +47,10 @@
   width: 260px;
 }
 
+.Reader-Page {
+  height: 100vh;
+}
+
 /*.Cover {*/
 /*  float: left;*/
 /*}*/
