@@ -3,7 +3,7 @@ import axios from "axios";
 import PurgatoryItem from "./PurgatoryItem";
 import {PurgatoryItemModel} from "./model";
 import PurgatoryFileUpload from "./PurgatoryFileUpload";
-import Grid2 from "@mui/material/Grid2";
+import {Button, Card, Stack} from "@mui/material";
 
 function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
     let token = localStorage.getItem("token")
@@ -17,15 +17,28 @@ function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
 
 function Purgatory() {
     const [purgatoryItems, setPurgatoryItems] = useState<PurgatoryItemModel[]>()
+    const [selectedItem, setSelectedItem] = useState<PurgatoryItemModel | undefined>()
 
     useEffect(() => {
         getItems(setPurgatoryItems)
     }, [])
 
     function handleItemResolve(id: Number) {
-        setPurgatoryItems(state => {
-            return state?.filter(value => value.id !== id)
-        })
+        let items = purgatoryItems?.filter(value => value.id !== id)
+        setSelectedItem((_) => items?.[0])
+
+        setPurgatoryItems(items)
+    }
+
+    function getCard(item: PurgatoryItemModel | undefined) {
+        if (item == undefined) return null
+        return (
+            <PurgatoryItem
+                key={item.id.toString()}
+                item={item}
+                handleDecision={id => handleItemResolve(id)}
+            />
+        )
     }
 
     function handleFileUploaded() {
@@ -33,20 +46,23 @@ function Purgatory() {
     }
 
     return (
-        <Grid2>
+        <div>
             <PurgatoryFileUpload onFileUploaded={handleFileUploaded}/>
-            <Grid2 container direction="row">
-                {purgatoryItems?.map(item => {
-                    return (
-                        <PurgatoryItem
-                            key={item.id.toString()}
-                            item={item}
-                            handleDecision={id => handleItemResolve(id)}
-                        />
-                    )
-                })}
-            </Grid2>
-        </Grid2>
+            <Card className="Purgatory-Panel">
+                <Stack spacing={2} width={400}>
+                    {purgatoryItems?.map(item => {
+                        return (
+                            <Button variant={item == selectedItem ? "contained" : "text"}
+                                    onClick={() => setSelectedItem((_) => item)}
+                            >
+                                {`${item.meta.seriesName}  #${item.meta.number}`}
+                            </Button>
+                        )
+                    })}
+                </Stack>
+                {getCard(selectedItem)}
+            </Card>
+        </div>
     );
 }
 

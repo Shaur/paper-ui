@@ -31,6 +31,7 @@ interface PurgatoryItemProps {
 export default function PurgatoryItem(props: PurgatoryItemProps) {
 
     const [viewModelState, setViewModelState] = useState({seriesId: null, title: props.item.meta.seriesName})
+    const id = props.item.id
     const [number, setNumber] = useState(props.item.meta.number)
     const [summary, setSummary] = useState(props.item.meta.summary)
     const [publicationDate, setPublicationDate] = useState(new Date())
@@ -43,17 +44,13 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
         setOptions()
     }, []);
 
-    useEffect(() => {
-
-    }, [pagesCount]);
-
     function onReject() {
-        rejectPurgatoryItem(props.item.id, props.handleDecision)
+        rejectPurgatoryItem(id, props.handleDecision)
     }
 
     function onApprove() {
         const request: ApproveRequest = {
-            id: props.item.id,
+            id: id,
             seriesUpdate: {
                 id: viewModelState.seriesId,
                 title: viewModelState.title,
@@ -184,13 +181,13 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                         <IconButton
                             aria-label="delete"
                             onClick={() => {
-                                deletePage(props.item.id, item, () => {
+                                deletePage(id, item, () => {
                                     setPagesCount((prevState) => prevState - 1)
                                 })
                             }}
                         >
                             <img
-                                src={`${process.env.REACT_APP_SERVER_URL}/private/comics/purgatory/file/${props.item.id}/${item}?size=SMALL`}
+                                src={`${process.env.REACT_APP_SERVER_URL}/private/comics/purgatory/file/${id}/${item}?size=SMALL`}
                                 alt="cover"
                                 width={150}
                                 key={item}

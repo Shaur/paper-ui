@@ -51,6 +51,12 @@
   height: 100vh;
 }
 
+.Purgatory-Panel {
+  display: flex;
+  justify-content: left;
+  height: 100lvh;
+}
+
 /*.Cover {*/
 /*  float: left;*/
 /*}*/
