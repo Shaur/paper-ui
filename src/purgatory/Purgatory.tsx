@@ -4,6 +4,9 @@ import PurgatoryItem from "./PurgatoryItem";
 import {PurgatoryItemModel} from "./model";
 import PurgatoryFileUpload from "./PurgatoryFileUpload";
 import {Button, Card, Stack} from "@mui/material";
+import DiskInfoWidget from "../disk-info-widget/DiskInfoWidget";
+import {DiskInfo} from "../comics/model";
+import {getDiskInfo} from "../api";
 
 function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
     let token = localStorage.getItem("token")
@@ -18,9 +21,11 @@ function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
 function Purgatory() {
     const [purgatoryItems, setPurgatoryItems] = useState<PurgatoryItemModel[]>()
     const [selectedItem, setSelectedItem] = useState<PurgatoryItemModel | undefined>()
+    const [diskInfo, setDiskInfo] = useState<DiskInfo | undefined>()
 
     useEffect(() => {
         getItems(setPurgatoryItems)
+        getDiskInfo(setDiskInfo)
     }, [])
 
     function handleItemResolve(id: Number) {
@@ -47,6 +52,7 @@ function Purgatory() {
 
     return (
         <div>
+            <DiskInfoWidget diskInfo={diskInfo}/>
             <PurgatoryFileUpload onFileUploaded={handleFileUploaded}/>
             <Card className="Purgatory-Panel">
                 <Stack spacing={2} width={400}>

@@ -16,3 +16,9 @@ export interface IssueUpdateRequest {
     publicationDate: Date,
     pagesCount: Number
 }
+
+export interface DiskInfo {
+    total: number,
+    free: number,
+    usable: number
+}

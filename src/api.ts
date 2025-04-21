@@ -47,6 +47,11 @@ export function unsubscribe(seriesId: Number, callback: () => void) {
         .then(callback)
 }
 
+export function getDiskInfo(callback: (data: any) => void) {
+    axios.get(`${serverUrl}/stats/disk`, _headers())
+        .then(response => callback(response.data))
+}
+
 function _headers() {
     let token = localStorage.getItem("token")
     return {headers: {"Authorization": "Bearer " + token}}
