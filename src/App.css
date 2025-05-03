@@ -47,6 +47,10 @@
   width: 260px;
 }
 
+.Selected-Series {
+  border: thick solid blue
+}
+
 .Reader-Page {
   height: 100vh;
 }

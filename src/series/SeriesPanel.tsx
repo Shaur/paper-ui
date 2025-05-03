@@ -6,11 +6,13 @@ import {Badge, Button, Stack} from "@mui/material";
 import '../App.css'
 
 import {subscribe, unsubscribe} from "../api"
+import MultiEditToolbox from "../multi-edit-toolbox/MultiEditToolbox";
 
 
 function SeriesPanel() {
     const [items, setItems] = useState<SeriesCatalogItemModel[]>([])
     const [pageNumber, setPageNumber] = useState(0)
+    const [selected, setSelected] = useState<number[]>([])
 
 
     useEffect(() => {
@@ -28,7 +30,6 @@ function SeriesPanel() {
             }
 
             let filtered = data.filter((value: SeriesCatalogItemModel) => prevState.find(obj => value.id === obj.id) === undefined)
-            console.log(filtered)
             return [...prevState, ...filtered]
         }))
     }
@@ -50,10 +51,23 @@ function SeriesPanel() {
 
     return (
         <div>
+            <MultiEditToolbox selected={selected}/>
             <Grid2 container direction="row">
                 {items?.map(item => {
                     return (
-                        <Stack direction="column" spacing={1} className='Series-Wrapper'>
+                        <Stack direction="column" spacing={1}
+                               className={selected.includes(item.id) ? "Series-Wrapper Selected-Series" : "Series-Wrapper"}
+                               onClick={event => {
+                                   if (event.ctrlKey) {
+                                       setSelected(state => {
+                                           if (state.includes(item.id)) {
+                                               return state.filter(value => value !== item.id)
+                                           } else {
+                                               return [...state, item.id]
+                                           }
+                                       })
+                                   }
+                               }}>
                             <Badge badgeContent={item.issuesCount.valueOf()} color="primary">
                                 <img
                                     src={`${process.env.REACT_APP_SERVER_URL}${item.cover}?size=SMALL`}

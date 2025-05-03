@@ -12,7 +12,7 @@ export interface PurgatoryItemModel {
 }
 
 export interface SeriesCatalogItemModel {
-    id: Number,
+    id: number,
     title: string,
     publisher: string,
     issuesCount: Number,
