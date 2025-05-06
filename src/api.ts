@@ -3,14 +3,14 @@ import {ApproveRequest} from "./comics/model";
 
 let serverUrl = process.env.REACT_APP_SERVER_URL
 
-export function rejectPurgatoryItem(id: Number, callback:(id: Number) => void) {
+export function rejectPurgatoryItem(id: Number, callback: (id: Number) => void) {
     let token = localStorage.getItem("token")
 
     axios.delete(`${serverUrl}/private/comics/purgatory/${id}`, {headers: {"Authorization": "Bearer " + token}})
         .then(_ => callback(id))
 }
 
-export function deletePage(id: Number, number: number, callback:() => void) {
+export function deletePage(id: Number, number: number, callback: () => void) {
     let token = localStorage.getItem("token")
 
     axios.delete(`${serverUrl}/private/comics/purgatory/${id}/${number}`, {headers: {"Authorization": "Bearer " + token}})
@@ -50,6 +50,11 @@ export function unsubscribe(seriesId: Number, callback: () => void) {
 export function getDiskInfo(callback: (data: any) => void) {
     axios.get(`${serverUrl}/stats/disk`, _headers())
         .then(response => callback(response.data))
+}
+
+export function mergeSeries(ids: number[], callback: (data: any) => void) {
+    axios.put(`${serverUrl}/series/merge`, {ids: ids}, _headers())
+        .then(callback)
 }
 
 function _headers() {

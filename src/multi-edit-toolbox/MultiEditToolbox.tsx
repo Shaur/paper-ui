@@ -5,10 +5,12 @@ import React from "react";
 
 function MultiEditToolbox(properties: MultiEditToolboxProperties) {
     let selected = properties.selected
-    if (selected.length == 0) return (<div></div>)
+    if (selected.length === 0) return (<div></div>)
     return (
-        <div>
-            <IconButton>{selected.length}<CallMergeIcon/></IconButton>
+        <div className="Toolbar">
+            <IconButton onClick={properties.onMergeClick}>
+                {selected.length}<CallMergeIcon/>
+            </IconButton>
         </div>
     )
 }

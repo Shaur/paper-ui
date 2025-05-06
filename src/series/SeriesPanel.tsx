@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Grid2 from "@mui/material/Grid2";
 import {SeriesCatalogItemModel} from "../purgatory/model";
-import {findSeries} from "../api";
+import {findSeries, mergeSeries} from "../api";
 import {Badge, Button, Stack} from "@mui/material";
 import '../App.css'
 
@@ -51,7 +51,16 @@ function SeriesPanel() {
 
     return (
         <div>
-            <MultiEditToolbox selected={selected}/>
+            <MultiEditToolbox
+                selected={selected}
+                onMergeClick={ () => {
+                    const oldest = Math.min.apply(null, selected)
+                    mergeSeries(selected, () => {
+                        setItems(data => data.filter(item => !selected.includes(item.id) || item.id === oldest))
+                        setSelected([])
+                    })
+                }}
+            />
             <Grid2 container direction="row">
                 {items?.map(item => {
                     return (

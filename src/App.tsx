@@ -4,7 +4,6 @@ import Purgatory from "./purgatory/Purgatory";
 import Login from "./login/Login";
 import {Box, Tab, Tabs} from "@mui/material";
 import SeriesPanel from "./series/SeriesPanel";
-import DiskInfoWidget from "./disk-info-widget/DiskInfoWidget";
 
 interface TabPanelProps {
     children?: React.ReactNode;

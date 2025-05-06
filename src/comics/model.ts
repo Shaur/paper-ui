@@ -22,3 +22,7 @@ export interface DiskInfo {
     free: number,
     usable: number
 }
+
+export interface MergeSeriesRequest {
+    ids: number[]
+}
