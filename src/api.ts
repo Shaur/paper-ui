@@ -57,6 +57,11 @@ export function mergeSeries(ids: number[], callback: (data: any) => void) {
         .then(callback)
 }
 
+export function deleteIssue(id: number, callback: (data: any) => void) {
+    axios.delete(`${serverUrl}/issue/${id}`, _headers())
+        .then(callback)
+}
+
 function _headers() {
     let token = localStorage.getItem("token")
     return {headers: {"Authorization": "Bearer " + token}}

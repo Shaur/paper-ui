@@ -1,8 +1,8 @@
 import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {IssueCatalogItemModel} from "../purgatory/model";
-import {getIssues} from "../api";
-import {Badge, Stack} from "@mui/material";
+import {deleteIssue, getIssues} from "../api";
+import {Badge, Button, Stack} from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 
 function SeriesItemView() {
@@ -27,6 +27,11 @@ function SeriesItemView() {
                         </Badge>
                         <div className='Series-Title'>
                             <a href={`/reader/${item.id}`}>{item.number}</a>
+                            <Button onClick={() => {
+                                deleteIssue(item.id, () => {
+                                    setItems(exists => exists?.filter(i => i.id !== item.id))
+                                })
+                            }}>Delete</Button>
                         </div>
                     </Stack>
                 )

@@ -21,7 +21,7 @@ export interface SeriesCatalogItemModel {
 }
 
 export interface IssueCatalogItemModel {
-    id: Number,
+    id: number,
     number: string,
     summary: string,
     seriesId: Number,
