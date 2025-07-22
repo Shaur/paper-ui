@@ -125,7 +125,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                 />
             </ListItem>
             <ListItem key="Title suggestions">
-                <Accordion sx={{width: 300}} hidden={seriesOptions.length == 0}>
+                <Accordion sx={{width: 300}} hidden={seriesOptions.length === 0}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon/>}
                         aria-controls="panel2-content"

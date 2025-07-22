@@ -17,7 +17,7 @@ function SeriesPanel() {
 
     useEffect(() => {
         fetchSeries()
-    }, [])
+    })
 
     useEffect(() => {
         fetchSeries()

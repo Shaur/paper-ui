@@ -11,7 +11,7 @@ import {getDiskInfo} from "../api";
 function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
     let token = localStorage.getItem("token")
     let serverUrl = process.env.REACT_APP_SERVER_URL
-    axios.get<PurgatoryItemModel[]>(`${serverUrl}/private/comics/purgatory`, {headers: {"Authorization": "Bearer " + token}})
+    axios.get<PurgatoryItemModel[]>(`${serverUrl}/purgatory`, {headers: {"Authorization": "Bearer " + token}})
         .then((response) => {
             onSuccess(response.data)
         })
@@ -36,7 +36,7 @@ function Purgatory() {
     }
 
     function getCard(item: PurgatoryItemModel | undefined) {
-        if (item == undefined) return null
+        if (item === undefined) return null
         return (
             <PurgatoryItem
                 key={item.id.toString()}
@@ -58,7 +58,7 @@ function Purgatory() {
                 <Stack spacing={2} width={400}>
                     {purgatoryItems?.map(item => {
                         return (
-                            <Button variant={item == selectedItem ? "contained" : "text"}
+                            <Button variant={item === selectedItem ? "contained" : "text"}
                                     onClick={() => setSelectedItem((_) => item)}
                             >
                                 {`${item.meta.seriesName}  #${item.meta.number}`}
