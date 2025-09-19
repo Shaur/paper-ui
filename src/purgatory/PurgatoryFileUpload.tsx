@@ -61,10 +61,9 @@ function PurgatoryFileUpload(props: PurgatoryFileUploadProps) {
                 <Button type="submit" disabled={files === null} onClick={handleClick}>Upload</Button>
             </Stack>
             {progress.map((v, index) => {
-                const file = files ? files[index].name : "Unknown"
                 return (
                     <Stack key={index} direction="column" width={350} paddingTop={5}>
-                        <div>{file}</div>
+                        <div>{v.file.name}</div>
                         <LinearProgress variant="determinate" value={v.progress}/>
                     </Stack>
                 )
