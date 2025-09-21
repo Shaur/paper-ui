@@ -47,6 +47,7 @@ function PurgatoryFileUpload(props: PurgatoryFileUploadProps) {
             })
                 .then(_ => {
                     setFiles((prevState) => prevState?.filter(f => f !== file))
+                    setProgress(prevState => prevState.filter(value => value.file !== file))
 
                     props.onFileUploaded()
                 })
