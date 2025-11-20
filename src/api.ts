@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ApproveRequest} from "./comics/model";
+import {ApproveRequest, UpdateSeries} from "./comics/model";
 
 let serverUrl = process.env.REACT_APP_SERVER_URL
 
@@ -32,6 +32,11 @@ export function findSeries(pageSize: Number, pageNumber: Number, callback: (data
         .then(response => callback(response.data))
 }
 
+export function getSeries(id: number, callback: (data: any) => void) {
+    axios.get(`${serverUrl}/series/${id}`, _headers())
+        .then(response => callback(response.data))
+}
+
 export function getIssues(seriesId: Number, callback: (data: any) => void) {
     axios.get(`${serverUrl}/series/${seriesId}/issues`, _headers())
         .then(response => callback(response.data))
@@ -59,6 +64,11 @@ export function mergeSeries(ids: number[], callback: (data: any) => void) {
 
 export function deleteIssue(id: number, callback: (data: any) => void) {
     axios.delete(`${serverUrl}/issue/${id}`, _headers())
+        .then(callback)
+}
+
+export function updateSeries(id: number, request: UpdateSeries, callback: (data: any) => void) {
+    axios.put(`${serverUrl}/series/${id}`, request, _headers())
         .then(callback)
 }
 

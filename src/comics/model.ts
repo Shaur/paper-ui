@@ -26,3 +26,7 @@ export interface DiskInfo {
 export interface MergeSeriesRequest {
     ids: number[]
 }
+
+export interface UpdateSeries {
+    ended: Boolean
+}

@@ -15,7 +15,7 @@ function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
         .then((response) => {
             onSuccess(response.data)
         })
-        .catch(_ => localStorage.removeItem("token"))
+        .catch(_ => {}/*localStorage.removeItem("token")*/)
 }
 
 function Purgatory() {
