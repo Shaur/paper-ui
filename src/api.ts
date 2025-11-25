@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ApproveRequest, UpdateSeries} from "./comics/model";
+import {ApproveRequest, UpdateIssue, UpdateSeries} from "./comics/model";
 
 let serverUrl = process.env.REACT_APP_SERVER_URL
 
@@ -69,6 +69,11 @@ export function deleteIssue(id: number, callback: (data: any) => void) {
 
 export function updateSeries(id: number, request: UpdateSeries, callback: (data: any) => void) {
     axios.put(`${serverUrl}/series/${id}`, request, _headers())
+        .then(callback)
+}
+
+export function updateIssue(id: number, request: UpdateIssue, callback: () => void) {
+    axios.patch(`${serverUrl}/issue/${id}`, request, _headers())
         .then(callback)
 }
 

@@ -30,3 +30,7 @@ export interface MergeSeriesRequest {
 export interface UpdateSeries {
     ended: Boolean
 }
+
+export interface UpdateIssue {
+    number: string
+}
