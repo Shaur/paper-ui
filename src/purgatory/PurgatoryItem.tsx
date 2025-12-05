@@ -163,7 +163,11 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
             </ListItem>
             <ListItem key="Publication date">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker label="Publication date" value={dayjs(publicationDate)}/>
+                    <DatePicker
+                        label="Publication date"
+                        value={dayjs(publicationDate)}
+                        onChange={value => setPublicationDate(value?.toDate() ?? new Date())}
+                    />
                 </LocalizationProvider>
             </ListItem>
         </Stack>
