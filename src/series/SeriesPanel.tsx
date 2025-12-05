@@ -2,11 +2,12 @@ import React, {useEffect, useState} from "react";
 import Grid2 from "@mui/material/Grid2";
 import {SeriesCatalogItemModel} from "../purgatory/model";
 import {findSeries, mergeSeries} from "../api";
-import {Badge, Button, Stack} from "@mui/material";
+import {Badge, Button, InputAdornment, Stack, TextField} from "@mui/material";
 import '../App.css'
 
 import {subscribe, unsubscribe} from "../api"
 import MultiEditToolbox from "../multi-edit-toolbox/MultiEditToolbox";
+import {Search} from "@mui/icons-material";
 
 
 function SeriesPanel() {
@@ -14,13 +15,9 @@ function SeriesPanel() {
     const [pageNumber, setPageNumber] = useState(0)
     const [selected, setSelected] = useState<number[]>([])
 
-
     useEffect(() => {
         fetchSeries()
-    })
-
-    useEffect(() => {
-        fetchSeries()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageNumber]);
 
     function fetchSeries() {
@@ -51,9 +48,21 @@ function SeriesPanel() {
 
     return (
         <div>
+            <TextField
+                fullWidth={true}
+                placeholder={"search"}
+                slotProps={{
+                    input: {
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <Search/>
+                            </InputAdornment>
+                        ),
+                    },
+                }}/>
             <MultiEditToolbox
                 selected={selected}
-                onMergeClick={ () => {
+                onMergeClick={() => {
                     const oldest = Math.min.apply(null, selected)
                     mergeSeries(selected, () => {
                         setItems(data => data.filter(item => !selected.includes(item.id) || item.id === oldest))
@@ -61,7 +70,7 @@ function SeriesPanel() {
                     })
                 }}
             />
-            <Grid2 container direction="row">
+            <Grid2 container direction="row" marginTop={3}>
                 {items?.map(item => {
                     return (
                         <Stack direction="column" spacing={1}

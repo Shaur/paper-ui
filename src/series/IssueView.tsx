@@ -3,8 +3,8 @@ import {Badge, Button, Stack, TextField} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DoneIcon from "@mui/icons-material/Done"
 import React, {useState} from "react";
-import {deleteIssue, getIssues, getSeries, updateIssue} from "../api";
-import {IssueUpdateRequest, UpdateIssue} from "../comics/model";
+import {deleteIssue, updateIssue} from "../api";
+import {UpdateIssue} from "../comics/model";
 
 interface IssueViewProperties {
     item: IssueCatalogItemModel
@@ -26,13 +26,15 @@ function IssueView(properties: IssueViewProperties) {
             </Badge>
             <div className='Series-Title'>
                 {editMode ? (
-                    <TextField value={changes.number}
+                    <TextField label="Number"
+                               value={changes.number}
                                onChange={(event) => setChanges({number: event.currentTarget.value})}/>
                 ) : (
                     <a href={`/reader/${properties.item.id}`}>{changes.number}</a>
                 )}
 
-                <Button onClick={() => properties.onDelete(properties.item.id)}>Delete</Button>
+                <Button
+                    onClick={() => deleteIssue(properties.item.id, () => properties.onDelete(properties.item.id))}>Delete</Button>
                 <Button onClick={() => {
                     if (editMode) {
                         updateIssue(properties.item.id, changes, () => setEditMode((prev) => !prev))

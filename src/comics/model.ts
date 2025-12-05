@@ -28,7 +28,8 @@ export interface MergeSeriesRequest {
 }
 
 export interface UpdateSeries {
-    ended: Boolean
+    ended: boolean,
+    publisher: string
 }
 
 export interface UpdateIssue {
