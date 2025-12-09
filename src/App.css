@@ -67,6 +67,22 @@
     width: 100%;
 }
 
+.Large-Title {
+    width: 100%;
+    text-align: center;
+}
+
+.Alert {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+.Edit-Mode {
+    position: absolute !important;
+    right: 0;
+}
+
 /*.Cover {*/
 /*  float: left;*/
 /*}*/
