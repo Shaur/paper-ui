@@ -9,6 +9,7 @@ import {
     ListItem,
     Stack,
     TextField,
+    Tooltip,
     Typography
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -39,6 +40,12 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
     const [publisher, setPublisher] = useState(props.item.meta.publisher)
 
     const [seriesOptions, setSeriesOptions] = useState<any[]>([])
+
+    const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric'
+    };
 
     useEffect(() => {
         setOptions()
@@ -135,11 +142,17 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                     </AccordionSummary>
                     <AccordionDetails>
                         {seriesOptions.map(opt =>
-                            <div>{opt.title}
+                            <Tooltip title={`${new Date(opt.firstPublication).toLocaleDateString(undefined, options)} - ${new Date(opt.lastPublication).toLocaleDateString(undefined, options)}`}>
+                            <div>
+
+                                    {`[${opt.id}] ${opt.title} ${opt.ended ? '✔' : ''}`}
+
                                 <Button onClick={() =>
                                     setViewModelState({...viewModelState, seriesId: opt.id, title: opt.title})
                                 }
-                                >Link</Button></div>
+                                >Link</Button>
+                            </div>
+                            </Tooltip>
                         )}
                     </AccordionDetails>
                 </Accordion>
