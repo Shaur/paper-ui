@@ -1,7 +1,11 @@
-import axios from "axios";
+import axios, {HttpStatusCode} from "axios";
 import {ApproveRequest, UpdateIssue, UpdateSeries} from "./comics/model";
 
 let serverUrl = process.env.REACT_APP_SERVER_URL
+
+export function getPurgatoryItems(callback: (data: any) => void) {
+    _request(Request.GET, `${serverUrl}/purgatory`, callback)
+}
 
 export function rejectPurgatoryItem(id: Number, callback: (id: Number) => void) {
     let token = localStorage.getItem("token")
@@ -53,8 +57,7 @@ export function unsubscribe(seriesId: Number, callback: () => void) {
 }
 
 export function getDiskInfo(callback: (data: any) => void) {
-    axios.get(`${serverUrl}/stats/disk`, _headers())
-        .then(response => callback(response.data))
+    _request(Request.GET, `${serverUrl}/stats/disk`, callback)
 }
 
 export function mergeSeries(ids: number[], callback: (data: any) => void) {
@@ -80,4 +83,26 @@ export function updateIssue(id: number, request: UpdateIssue, callback: () => vo
 function _headers() {
     let token = localStorage.getItem("token")
     return {headers: {"Authorization": "Bearer " + token}}
+}
+
+function _request(type: Request, url: string, callback: (data: any) => void, body?: any) {
+    switch (type) {
+        case Request.GET: axios.get(url, _headers())
+            .then(response => callback(response.data))
+            .catch(error => {
+                console.log(error)
+                if (error?.response?.status === HttpStatusCode.Unauthorized) {
+                    localStorage.removeItem("token")
+                    window.location.href = "/"
+                }
+            })
+
+    }
+}
+enum Request {
+    GET,
+    PUT,
+    DELETE,
+    POST,
+    PATCH
 }

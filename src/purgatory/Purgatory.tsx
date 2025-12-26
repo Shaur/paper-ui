@@ -1,21 +1,14 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import PurgatoryItem from "./PurgatoryItem";
 import {PurgatoryItemModel} from "./model";
 import PurgatoryFileUpload from "./PurgatoryFileUpload";
 import {Button, Card, Stack} from "@mui/material";
 import DiskInfoWidget from "../disk-info-widget/DiskInfoWidget";
 import {DiskInfo} from "../comics/model";
-import {getDiskInfo} from "../api";
+import {getDiskInfo, getPurgatoryItems} from "../api";
 
 function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
-    let token = localStorage.getItem("token")
-    let serverUrl = process.env.REACT_APP_SERVER_URL
-    axios.get<PurgatoryItemModel[]>(`${serverUrl}/purgatory`, {headers: {"Authorization": "Bearer " + token}})
-        .then((response) => {
-            onSuccess(response.data)
-        })
-        .catch(_ => {}/*localStorage.removeItem("token")*/)
+    getPurgatoryItems(onSuccess)
 }
 
 function Purgatory() {
