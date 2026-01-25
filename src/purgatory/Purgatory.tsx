@@ -6,15 +6,18 @@ import {Button, Card, Stack} from "@mui/material";
 import DiskInfoWidget from "../disk-info-widget/DiskInfoWidget";
 import {DiskInfo} from "../comics/model";
 import {getDiskInfo, getPurgatoryItems} from "../api";
+import PurgatoryMetaDialog from "./PurgatoryMetaDialog";
+import AddIcon from "@mui/icons-material/Add";
 
 function getItems(onSuccess: ((value: PurgatoryItemModel[]) => void)) {
     getPurgatoryItems(onSuccess)
 }
 
 function Purgatory() {
-    const [purgatoryItems, setPurgatoryItems] = useState<PurgatoryItemModel[]>()
+    const [purgatoryItems, setPurgatoryItems] = useState<PurgatoryItemModel[]>([])
     const [selectedItem, setSelectedItem] = useState<PurgatoryItemModel | undefined>()
     const [diskInfo, setDiskInfo] = useState<DiskInfo | undefined>()
+    const [open, setOpen] = useState(false)
 
     useEffect(() => {
         getItems(setPurgatoryItems)
@@ -44,9 +47,18 @@ function Purgatory() {
     }
 
     return (
+        <React.Fragment>
+            <PurgatoryMetaDialog
+                open={open}
+                onClose={() => setOpen(false)}
+                onConfirm={item => setPurgatoryItems(items => [...items, item])}
+            />
         <div>
             <DiskInfoWidget diskInfo={diskInfo}/>
-            <PurgatoryFileUpload onFileUploaded={handleFileUploaded}/>
+            <div>
+                <PurgatoryFileUpload onFileUploaded={handleFileUploaded}/>
+
+            </div>
             <Card className="Purgatory-Panel">
                 <Stack spacing={2} width={400}>
                     {purgatoryItems?.map(item => {
@@ -58,10 +70,18 @@ function Purgatory() {
                             </Button>
                         )
                     })}
+                    <Button
+                        startIcon={<AddIcon />}
+                        variant="outlined"
+                        onClick={() => setOpen(true)}
+                    >
+                        Add meta
+                    </Button>
                 </Stack>
-                {getCard(selectedItem)}
             </Card>
+            {getCard(selectedItem)}
         </div>
+        </React.Fragment>
     );
 }
 

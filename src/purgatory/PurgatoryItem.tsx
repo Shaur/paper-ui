@@ -84,24 +84,28 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
         return Array.from(Array(end - start).keys()).map((i) => i + start);
     };
 
-    return <Grid2 container spacing={0} paddingTop={5} width={650}>
-        <Stack direction="column" spacing={1}>
-            <ListItem key={pagesCount}>
-                <img
-                    src={`${process.env.REACT_APP_SERVER_URL}/private/comics/purgatory/file/${props.item.id}/0`}
-                    alt="cover"
-                    className='Сover'
-                />
-            </ListItem>
-            <ListItem>
-                <Actions
-                    direction="row"
-                    spacing={1}
-                    onReject={onReject}
-                    onApprove={onApprove}
-                />
-            </ListItem>
-        </Stack>
+    return <Grid2 container spacing={0} width={650}>
+        {props.item.meta.pagesCount != 0 ?
+            (
+                <Stack direction="column" spacing={1}>
+                    <ListItem key={pagesCount}>
+                        <img
+                            src={`${process.env.REACT_APP_SERVER_URL}/private/comics/purgatory/file/${props.item.id}/0`}
+                            alt="cover"
+                            className='Сover'
+                        />
+                    </ListItem>
+                    <ListItem>
+                        <Actions
+                            direction="row"
+                            spacing={1}
+                            onReject={onReject}
+                            onApprove={onApprove}
+                        />
+                    </ListItem>
+                </Stack>
+            ) : null
+        }
 
         <Stack direction="column" spacing={1} paddingTop={0}>
             <ListItem key="Title">
@@ -142,16 +146,17 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                     </AccordionSummary>
                     <AccordionDetails>
                         {seriesOptions.map(opt =>
-                            <Tooltip title={`${new Date(opt.firstPublication).toLocaleDateString(undefined, options)} - ${new Date(opt.lastPublication).toLocaleDateString(undefined, options)}`}>
-                            <div>
+                            <Tooltip
+                                title={`${new Date(opt.firstPublication).toLocaleDateString(undefined, options)} - ${new Date(opt.lastPublication).toLocaleDateString(undefined, options)}`}>
+                                <div>
 
                                     {`[${opt.id}] ${opt.title} ${opt.ended ? '✔' : ''}`}
 
-                                <Button onClick={() =>
-                                    setViewModelState({...viewModelState, seriesId: opt.id, title: opt.title})
-                                }
-                                >Link</Button>
-                            </div>
+                                    <Button onClick={() =>
+                                        setViewModelState({...viewModelState, seriesId: opt.id, title: opt.title})
+                                    }
+                                    >Link</Button>
+                                </div>
                             </Tooltip>
                         )}
                     </AccordionDetails>
@@ -184,7 +189,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                 </LocalizationProvider>
             </ListItem>
         </Stack>
-        <Accordion>
+        <Accordion className={'Pages-List'}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon/>}
                 aria-controls="panel2-content"

@@ -58,6 +58,7 @@
 .Purgatory-Panel {
     display: flex;
     justify-content: left;
+    float: left;
 }
 
 .Toolbar {
@@ -81,6 +82,10 @@
 .Edit-Mode {
     position: absolute !important;
     right: 0;
+}
+
+.Pages-List {
+    width: 650px;
 }
 
 /*.Cover {*/

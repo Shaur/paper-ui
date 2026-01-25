@@ -3,6 +3,41 @@ import {ApproveRequest, UpdateIssue, UpdateSeries} from "./comics/model";
 
 let serverUrl = process.env.REACT_APP_SERVER_URL
 
+function _headers() {
+    let token = localStorage.getItem("token")
+    return {headers: {"Authorization": "Bearer " + token}}
+}
+
+function _request(type: Request, url: string, callback: (data: any) => void, body?: any) {
+    switch (type) {
+        case Request.GET: {
+            axios.get(url, _headers())
+                .then(response => callback(response.data))
+                .catch(error => {
+                    console.log(error)
+                    if (error?.response?.status === HttpStatusCode.Unauthorized) {
+                        localStorage.removeItem("token")
+                        window.location.href = "/"
+                    }
+                })
+            break;
+        }
+        case Request.POST: {
+            axios.post(url, body, _headers())
+                .then(response => callback(response.data))
+            break;
+        }
+    }
+}
+
+enum Request {
+    GET,
+    PUT,
+    DELETE,
+    POST,
+    PATCH
+}
+
 export function getPurgatoryItems(callback: (data: any) => void) {
     _request(Request.GET, `${serverUrl}/purgatory`, callback)
 }
@@ -80,29 +115,6 @@ export function updateIssue(id: number, request: UpdateIssue, callback: () => vo
         .then(callback)
 }
 
-function _headers() {
-    let token = localStorage.getItem("token")
-    return {headers: {"Authorization": "Bearer " + token}}
-}
-
-function _request(type: Request, url: string, callback: (data: any) => void, body?: any) {
-    switch (type) {
-        case Request.GET: axios.get(url, _headers())
-            .then(response => callback(response.data))
-            .catch(error => {
-                console.log(error)
-                if (error?.response?.status === HttpStatusCode.Unauthorized) {
-                    localStorage.removeItem("token")
-                    window.location.href = "/"
-                }
-            })
-
-    }
-}
-enum Request {
-    GET,
-    PUT,
-    DELETE,
-    POST,
-    PATCH
+export function saveMeta(title: string, number: string, callback: (data: any) => void) {
+    _request(Request.POST, `${serverUrl}/purgatory/meta`, callback, {title: title, number: number})
 }
