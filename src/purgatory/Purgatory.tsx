@@ -64,6 +64,7 @@ function Purgatory() {
                     {purgatoryItems?.map(item => {
                         return (
                             <Button variant={item === selectedItem ? "contained" : "text"}
+                                    color={item.meta.pagesCount === 0 ? "warning" : "info"}
                                     onClick={() => setSelectedItem((_) => item)}
                             >
                                 {`${item.meta.seriesName}  #${item.meta.number}`}
