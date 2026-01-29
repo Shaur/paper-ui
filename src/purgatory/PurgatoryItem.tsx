@@ -188,6 +188,18 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                     />
                 </LocalizationProvider>
             </ListItem>
+            {props.item.meta.pagesCount == 0 ? (
+                <ListItem key="Actions">
+                    <Actions
+                        direction="row"
+                        spacing={1}
+                        onReject={onReject}
+                        onApprove={onApprove}
+                    />
+                </ListItem>
+                ) : null
+            }
+
         </Stack>
         <Accordion className={'Pages-List'}>
             <AccordionSummary
