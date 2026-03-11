@@ -1,5 +1,6 @@
 import axios, {HttpStatusCode} from "axios";
 import {ApproveRequest, UpdateIssue, UpdateSeries} from "./comics/model";
+import {SeriesFilter} from "./purgatory/model";
 
 let serverUrl = process.env.REACT_APP_SERVER_URL
 
@@ -66,9 +67,24 @@ export function findBySeriesTitle(title: String, callback: (data: any) => void) 
         .then(response => callback(response.data))
 }
 
-export function findSeries(pageSize: Number, pageNumber: Number, callback: (data: any) => void) {
-    axios.get(`${serverUrl}/series?limit=${pageSize}&offset=${pageNumber}`, _headers())
+export function findSeries(pageSize: Number, pageNumber: Number, filter: SeriesFilter, callback: (data: any) => void) {
+    axios.get(`${serverUrl}/series${_seriesFilterRequest(filter)}limit=${pageSize}&offset=${pageNumber}`, _headers())
         .then(response => callback(response.data))
+}
+
+function _seriesFilterRequest(filter: SeriesFilter): string {
+    let parts: string[] = []
+
+    if (filter.titlePart != null) {
+        parts.push(`titlePart=${filter.titlePart}`)
+    }
+
+    let requestParams = parts.join('&')
+    if (requestParams === "") {
+        return "?"
+    }
+
+    return '?' + requestParams + '&'
 }
 
 export function getSeries(id: number, callback: (data: any) => void) {

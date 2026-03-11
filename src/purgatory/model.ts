@@ -29,3 +29,7 @@ export interface IssueCatalogItemModel {
     pagesCount: number,
     publicationDate: Date
 }
+
+export interface SeriesFilter {
+    titlePart?: string
+}

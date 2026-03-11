@@ -14,14 +14,23 @@ function SeriesPanel() {
     const [items, setItems] = useState<SeriesCatalogItemModel[]>([])
     const [pageNumber, setPageNumber] = useState(0)
     const [selected, setSelected] = useState<number[]>([])
+    const [search, setSearch] = useState("")
 
     useEffect(() => {
-        fetchSeries()
+        if (search === undefined || search === "") {
+            fetchSeries()
+        } else {
+            fetchSeries(search)
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pageNumber]);
+    }, [pageNumber, search]);
 
-    function fetchSeries() {
-        findSeries(20, pageNumber, data => setItems((prevState) => {
+    useEffect(() => {
+        setPageNumber(0)
+    }, [search]);
+
+    function fetchSeries(titlePart?: string) {
+        findSeries(20, pageNumber, {titlePart: titlePart}, data => setItems((prevState) => {
             if (prevState.length === 0) {
                 return data
             }
@@ -51,6 +60,8 @@ function SeriesPanel() {
             <TextField
                 fullWidth={true}
                 placeholder={"search"}
+                value={search}
+                onChange={event => {setSearch(event.currentTarget.value)}}
                 slotProps={{
                     input: {
                         startAdornment: (
