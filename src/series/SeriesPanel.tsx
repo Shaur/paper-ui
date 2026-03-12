@@ -30,14 +30,7 @@ function SeriesPanel() {
     }, [search]);
 
     function fetchSeries(titlePart?: string) {
-        findSeries(20, pageNumber, {titlePart: titlePart}, data => setItems((prevState) => {
-            if (prevState.length === 0) {
-                return data
-            }
-
-            let filtered = data.filter((value: SeriesCatalogItemModel) => prevState.find(obj => value.id === obj.id) === undefined)
-            return [...prevState, ...filtered]
-        }))
+        findSeries(20, pageNumber, {titlePart: titlePart}, data => setItems(data))
     }
 
     function handleSubscription(seriesId: Number, subscribed: boolean) {
