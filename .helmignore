@@ -1,0 +1,25 @@
+# Exclude common development and temp files
+.DS_Store
+# Common VCS dirs
+.git/
+.gitignore
+# Common backup files
+*.swp
+*.bak
+*.tmp
+*~
+# Various IDEs
+.project
+.idea/
+*.tmproj
+.vscode/
+
+# React App specific ignores
+node_modules/       # Node.js dependencies are not needed in the final chart package
+package.json        # These files are used for local development, not k8s deployment
+package-lock.json
+yarn.lock
+src/                # Source files are built into the 'build' directory
+public/             # Usually compiled into 'build' as well
+.env                # Environment variable files for local dev
+.env.*
