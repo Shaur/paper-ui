@@ -28,7 +28,7 @@ pipeline {
     stage('Deploy version') {
       steps {
         script {
-          withKubeConfig([serverUrl: "${CLUSTER_URL}", namespace: "default"]) {
+          withKubeConfig([credentialsId: "kubernetes-creds", serverUrl: "${CLUSTER_URL}", namespace: "default"]) {
             sh 'helm upgrade --install paper-ui paper-chart'
             sh 'kubectl rollout restart deployment paper-ui'
           }
