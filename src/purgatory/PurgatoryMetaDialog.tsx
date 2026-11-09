@@ -35,7 +35,7 @@ export default function PurgatoryMetaDialog(properties: PurgatoryMetaDialogPrope
 
         setTitle(parts[0])
 
-        if (parts.length == 2) {
+        if (parts.length === 2) {
             setNumber(parts[1])
         }
     }

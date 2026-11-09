@@ -31,13 +31,19 @@ interface PurgatoryItemProps {
 
 export default function PurgatoryItem(props: PurgatoryItemProps) {
 
-    const [viewModelState, setViewModelState] = useState({seriesId: null, title: props.item.meta.seriesName})
+    const [viewModelState, setViewModelState] = useState(
+        {
+            seriesId: null,
+            title: props.item.meta.seriesName,
+            publisher: props.item.meta.publisher
+        }
+    )
     const id = props.item.id
     const [number, setNumber] = useState(props.item.meta.number)
     const [summary, setSummary] = useState(props.item.meta.summary)
     const [publicationDate, setPublicationDate] = useState(new Date())
     const [pagesCount, setPagesCount] = useState(props.item.meta.pagesCount)
-    const [publisher, setPublisher] = useState(props.item.meta.publisher)
+    // const [publisher, setPublisher] = useState(props.item.meta.publisher)
 
     const [seriesOptions, setSeriesOptions] = useState<any[]>([])
 
@@ -61,7 +67,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
             seriesUpdate: {
                 id: viewModelState.seriesId,
                 title: viewModelState.title,
-                publisher: publisher
+                publisher: viewModelState.publisher
             },
             issueUpdate: {
                 number: number,
@@ -85,7 +91,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
     };
 
     return <Grid2 container spacing={0} width={650}>
-        {props.item.meta.pagesCount != 0 ?
+        {props.item.meta.pagesCount !== 0 ?
             (
                 <Stack direction="column" spacing={1}>
                     <ListItem key={pagesCount}>
@@ -116,11 +122,12 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                     getOptionLabel={(option) => option.title}
                     onChange={(_: any, newValue: any | null) => {
                         if (newValue === null) {
-                            setViewModelState(state => Object.assign(state, {seriesId: null, title: null}))
+                            setViewModelState(state => Object.assign(state, {seriesId: null, title: null, publisher: null}))
                         } else {
                             setViewModelState(state => Object.assign(state, {
                                 seriesId: newValue.id,
-                                title: newValue.title
+                                title: newValue.title,
+                                publisher: newValue.publisher,
                             }))
                         }
                     }}
@@ -153,7 +160,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                                     {`[${opt.id}] ${opt.title} ${opt.ended ? '✔' : ''}`}
 
                                     <Button onClick={() =>
-                                        setViewModelState({...viewModelState, seriesId: opt.id, title: opt.title})
+                                        setViewModelState({...viewModelState, seriesId: opt.id, title: opt.title, publisher: opt.publisher})
                                     }
                                     >Link</Button>
                                 </div>
@@ -167,8 +174,8 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                            onChange={v => setNumber(v.currentTarget.value)}/>
             </ListItem>
             <ListItem key="Publisher">
-                <TextField id="Publisher" label="Publisher" variant="outlined" value={publisher}
-                           onChange={v => setPublisher(v.currentTarget.value)}/>
+                <TextField id="Publisher" label="Publisher" variant="outlined" value={viewModelState.publisher}
+                           onChange={v => setViewModelState({...viewModelState, publisher: v.currentTarget.value})}/>
             </ListItem>
             <ListItem key="Summary">
                 <TextField id="Summary" label="Summary" variant="outlined" multiline={true} sx={{width: 300}}
@@ -188,7 +195,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                     />
                 </LocalizationProvider>
             </ListItem>
-            {props.item.meta.pagesCount == 0 ? (
+            {props.item.meta.pagesCount === 0 ? (
                 <ListItem key="Actions">
                     <Actions
                         direction="row"
