@@ -27,7 +27,7 @@ function PurgatoryFileUpload(props: PurgatoryFileUploadProps) {
         }
 
         let token = localStorage.getItem("token")
-        let serverUrl = process.env.REACT_APP_SERVER_URL
+        let serverUrl = import.meta.env.VITE_SERVER_URL
 
         for (let i = 0; i < files.length; i++) {
             let file = files[i]

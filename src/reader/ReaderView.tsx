@@ -13,7 +13,7 @@ function ReaderView() {
             <Stack direction="row" alignContent={'center'} justifyContent={'center'}>
                 <IconButton onClick={() => setCurrentPage(page => page - 1)}><ArrowLeft/></IconButton>
                 <img
-                    src={`${process.env.REACT_APP_SERVER_URL}/pages/${id}/${currentPage}`}
+                    src={`${import.meta.env.VITE_SERVER_URL}/pages/${id}/${currentPage}`}
                     alt={`page ${id}`}
                     className={'Reader-Page'}
                 />

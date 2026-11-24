@@ -28,7 +28,7 @@ function IssueView(properties: IssueViewProperties) {
         <Stack direction="row" spacing={1} padding={2}>
             <Badge badgeContent={properties.item.pagesCount} color="primary">
                 <img
-                    src={`${process.env.REACT_APP_SERVER_URL}/pages/${properties.item.id}/0`}
+                    src={`${import.meta.env.VITE_SERVER_URL}/pages/${properties.item.id}/0`}
                     alt="cover"
                     className='Сover'
                 />

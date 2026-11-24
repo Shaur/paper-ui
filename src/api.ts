@@ -2,7 +2,7 @@ import axios, {HttpStatusCode} from "axios";
 import {ApproveRequest, UpdateIssue, UpdateSeries} from "./comics/model";
 import {SeriesFilter} from "./purgatory/model";
 
-let serverUrl = process.env.REACT_APP_SERVER_URL
+let serverUrl = import.meta.env.VITE_SERVER_URL
 
 enum Request {
     GET,

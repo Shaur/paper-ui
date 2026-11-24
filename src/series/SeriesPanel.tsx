@@ -92,7 +92,7 @@ function SeriesPanel() {
                                }}>
                             <Badge badgeContent={item.issuesCount.valueOf()} color="primary">
                                 <img
-                                    src={`${process.env.REACT_APP_SERVER_URL}${item.cover}?size=SMALL`}
+                                    src={`${import.meta.env.VITE_SERVER_URL}${item.cover}?size=SMALL`}
                                     alt="cover"
                                     className='Сover'
                                     width={300}

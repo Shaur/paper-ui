@@ -15,7 +15,7 @@ function Login(props: LoginProps) {
     const [password, setPassword] = useState("")
 
     function login() {
-        let serverUrl = process.env.REACT_APP_SERVER_URL
+        let serverUrl = import.meta.env.VITE_SERVER_URL
         axios.post<TokenResponse>(`${serverUrl}/customer/login`, {username: username, password: password})
             .then((response) => {
                 localStorage.setItem("token", response.data.token)
