@@ -22,7 +22,7 @@ import {ApproveRequest} from "../comics/model";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import Grid2 from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 
 interface PurgatoryItemProps {
     item: PurgatoryItemModel,
@@ -90,7 +90,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
         return Array.from(Array(end - start).keys()).map((i) => i + start);
     };
 
-    return <Grid2 container spacing={0} width={650}>
+    return <Grid container sx={{spacing: 0, width: 650}}>
         {props.item.meta.pagesCount !== 0 ?
             (
                 <Stack direction="column" spacing={1}>
@@ -113,7 +113,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
             ) : null
         }
 
-        <Stack direction="column" spacing={1} paddingTop={0}>
+        <Stack direction="column" sx={{spacing: 1, paddingTop: 0}}>
             <ListItem key="Title">
                 <Autocomplete
                     value={viewModelState}
@@ -217,7 +217,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                 <Typography component="span">Pages</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <Grid2 direction={"row"} key={pagesCount}>
+                <Grid direction={"row"} key={pagesCount}>
                     {range(0, pagesCount).map(item =>
                         <IconButton
                             aria-label="delete"
@@ -236,11 +236,11 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                             <DeleteIcon/>
                         </IconButton>
                     )}
-                </Grid2>
+                </Grid>
             </AccordionDetails>
         </Accordion>
 
-    </Grid2>
+    </Grid>
 }
 
 interface ActionsProps extends StackProps {

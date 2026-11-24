@@ -5,7 +5,7 @@ function DiskInfoWidget(data: DiskInfoWidgetProperties) {
     const usable = (data.diskInfo?.usable ?? 0.0).toFixed(2)
     const total = (data.diskInfo?.total ?? 0).toFixed(2)
     return (
-        <Stack direction='column' textAlign='center' width={150}>
+        <Stack direction='column' sx={{textAlign: 'center', width: 150}}>
             <div>{usable}GB of {total}GB</div>
             <LinearProgress
                 variant='determinate'

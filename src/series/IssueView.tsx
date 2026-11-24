@@ -25,7 +25,7 @@ function IssueView(properties: IssueViewProperties) {
     })
 
     return (
-        <Stack direction="row" spacing={1} padding={2}>
+        <Stack direction="row" sx={{spacing: 1, padding: 2}}>
             <Badge badgeContent={properties.item.pagesCount} color="primary">
                 <img
                     src={`${import.meta.env.VITE_SERVER_URL}/pages/${properties.item.id}/0`}

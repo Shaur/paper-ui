@@ -51,7 +51,7 @@ export default function PurgatoryMetaDialog(properties: PurgatoryMetaDialogPrope
             <DialogTitle>Add new meta</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit} id="add-meta-form">
-                    <Stack direction="column" spacing={1} paddingTop={0}>
+                    <Stack direction="column" sx={{spacing: 1, paddingTop: 0}}>
                         <ListItem key="Title">
                             <TextField
                                 id="Title"

@@ -58,12 +58,12 @@ function PurgatoryFileUpload(props: PurgatoryFileUploadProps) {
     return (
         <Stack direction="column">
             <Stack direction="row" spacing={0.5}>
-                <TextField type="file" onChange={handleChange} inputProps={{multiple: true}}/>
+                <TextField type="file" onChange={handleChange} slotProps={{htmlInput: {multiple: true}}}/>
                 <Button type="submit" disabled={files === null} onClick={handleClick}>Upload</Button>
             </Stack>
             {progress.map((v, index) => {
                 return (
-                    <Stack key={index} direction="column" width={350} paddingTop={5}>
+                    <Stack key={index} sx={{direction: "column", width: 350, paddingTop: 5}}>
                         <div>{v.file.name}</div>
                         <LinearProgress variant="determinate" value={v.progress}/>
                     </Stack>

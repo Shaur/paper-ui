@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Grid2 from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import {SeriesCatalogItemModel} from "../purgatory/model";
 import {findSeries, mergeSeries} from "../api";
 import {Badge, Button, InputAdornment, Stack, TextField} from "@mui/material";
@@ -54,7 +54,9 @@ function SeriesPanel() {
                 fullWidth={true}
                 placeholder={"search"}
                 value={search}
-                onChange={event => {setSearch(event.currentTarget.value)}}
+                onChange={event => {
+                    setSearch(event.currentTarget.value)
+                }}
                 slotProps={{
                     input: {
                         startAdornment: (
@@ -74,7 +76,7 @@ function SeriesPanel() {
                     })
                 }}
             />
-            <Grid2 container direction="row" marginTop={3}>
+            <Grid container direction="row" sx={{marginTop: 3}}>
                 {items?.map(item => {
                     return (
                         <Stack direction="column" spacing={1}
@@ -110,7 +112,7 @@ function SeriesPanel() {
                         </Stack>
                     )
                 })}
-            </Grid2>
+            </Grid>
             <Button fullWidth={true} onClick={() => {
                 setPageNumber((value) => {
                         return value + 1

@@ -8,9 +8,9 @@ function ReaderView() {
     let {id} = useParams()
     const [currentPage, setCurrentPage] = useState(0)
     return (
-        <Stack direction="column" textAlign={'center'}>
+        <Stack direction="column" sx={{textAlign: 'center'}}>
             <div>{currentPage}</div>
-            <Stack direction="row" alignContent={'center'} justifyContent={'center'}>
+            <Stack direction="row" sx={{alignContent: 'center', justifyContent: 'center'}}>
                 <IconButton onClick={() => setCurrentPage(page => page - 1)}><ArrowLeft/></IconButton>
                 <img
                     src={`${import.meta.env.VITE_SERVER_URL}/pages/${id}/${currentPage}`}

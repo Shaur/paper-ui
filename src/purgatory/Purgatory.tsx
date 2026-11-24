@@ -53,35 +53,35 @@ function Purgatory() {
                 onClose={() => setOpen(false)}
                 onConfirm={item => setPurgatoryItems(items => [...items, item])}
             />
-        <div>
-            <DiskInfoWidget diskInfo={diskInfo}/>
             <div>
-                <PurgatoryFileUpload onFileUploaded={handleFileUploaded}/>
+                <DiskInfoWidget diskInfo={diskInfo}/>
+                <div>
+                    <PurgatoryFileUpload onFileUploaded={handleFileUploaded}/>
 
+                </div>
+                <Card className="Purgatory-Panel">
+                    <Stack sx={{spacing: 2, width: 400}}>
+                        {purgatoryItems?.map(item => {
+                            return (
+                                <Button variant={item === selectedItem ? "contained" : "text"}
+                                        color={item.meta.pagesCount === 0 ? "warning" : "info"}
+                                        onClick={() => setSelectedItem((_) => item)}
+                                >
+                                    {`${item.meta.seriesName}  #${item.meta.number}`}
+                                </Button>
+                            )
+                        })}
+                        <Button
+                            startIcon={<AddIcon/>}
+                            variant="outlined"
+                            onClick={() => setOpen(true)}
+                        >
+                            Add meta
+                        </Button>
+                    </Stack>
+                </Card>
+                {getCard(selectedItem)}
             </div>
-            <Card className="Purgatory-Panel">
-                <Stack spacing={2} width={400}>
-                    {purgatoryItems?.map(item => {
-                        return (
-                            <Button variant={item === selectedItem ? "contained" : "text"}
-                                    color={item.meta.pagesCount === 0 ? "warning" : "info"}
-                                    onClick={() => setSelectedItem((_) => item)}
-                            >
-                                {`${item.meta.seriesName}  #${item.meta.number}`}
-                            </Button>
-                        )
-                    })}
-                    <Button
-                        startIcon={<AddIcon />}
-                        variant="outlined"
-                        onClick={() => setOpen(true)}
-                    >
-                        Add meta
-                    </Button>
-                </Stack>
-            </Card>
-            {getCard(selectedItem)}
-        </div>
         </React.Fragment>
     );
 }

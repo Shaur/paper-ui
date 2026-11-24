@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {IssueCatalogItemModel, SeriesCatalogItemModel} from "../purgatory/model";
 import {getIssues, getSeries, updateSeries} from "../api";
 import {Alert, Button, Checkbox, TextField} from "@mui/material";
-import Grid2 from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import IssueView from "./IssueView";
 import {UpdateSeries} from "../comics/model";
 
@@ -55,7 +55,7 @@ function SeriesItemView() {
                     setTimeout(() => {setShowAlert(false)}, 4000)
                 })
             }}>Save</Button>
-            <Grid2 container direction="row">
+            <Grid container direction="row">
                 {items?.map(item => {
                     return (
                         <IssueView
@@ -65,7 +65,7 @@ function SeriesItemView() {
                             }}/>
                     )
                 })}
-            </Grid2>
+            </Grid>
             {showAlert ? (
                 <Alert variant="filled" severity="success" className="Alert" hidden={true}>
                     Data saved successfully
