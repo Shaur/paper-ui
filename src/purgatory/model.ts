@@ -27,7 +27,7 @@ export interface IssueCatalogItemModel {
     summary: string,
     seriesId: Number,
     pagesCount: number,
-    publicationDate: Date
+    publicationDate: number | null
 }
 
 export interface SeriesFilter {

@@ -13,7 +13,7 @@ export interface SeriesUpdateRequest {
 export interface IssueUpdateRequest {
     number: string,
     summary: string,
-    publicationDate: Date,
+    publicationDate: string,
     pagesCount: Number
 }
 
@@ -33,5 +33,6 @@ export interface UpdateSeries {
 }
 
 export interface UpdateIssue {
-    number: string
+    number?: string | null,
+    publicationDate?: string | null,
 }

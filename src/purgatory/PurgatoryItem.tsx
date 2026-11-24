@@ -72,7 +72,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
             issueUpdate: {
                 number: number,
                 summary: summary,
-                publicationDate: publicationDate,
+                publicationDate: dayjs(publicationDate).format('YYYY-MM-DDT00:00:00'),
                 pagesCount: pagesCount
             }
         }

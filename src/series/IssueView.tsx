@@ -17,8 +17,12 @@ interface IssueViewProperties {
 
 function IssueView(properties: IssueViewProperties) {
     const [editMode, setEditMode] = useState(false)
-    const [changes, setChanges] = useState<UpdateIssue>({number: properties.item.number})
-    const [publicationDate, setPublicationDate] = useState(properties.item.publicationDate)
+    const [changes, setChanges] = useState<UpdateIssue>({
+        number: properties.item.number,
+        publicationDate: properties.item.publicationDate != null
+            ? dayjs(properties.item.publicationDate).format('YYYY-MM-DDT00:00:00')
+            : null
+    })
 
     return (
         <Stack direction="row" spacing={1} padding={2}>
@@ -35,13 +39,13 @@ function IssueView(properties: IssueViewProperties) {
                 </Button>
             </Badge>
             {editMode ? (
-                <Stack direction="column" spacing={2} hidden={true}>
+                <Stack direction="column" spacing={2}>
                     <div className='Series-Title'>
                         <ListItem key="Number">
                             <TextField id="Number"
                                        label="Number"
                                        value={changes.number}
-                                       onChange={(event) => setChanges({number: event.currentTarget.value})}
+                                       onChange={(event) => setChanges({...changes, number: event.currentTarget.value})}
                             />
                         </ListItem>
 
@@ -50,8 +54,11 @@ function IssueView(properties: IssueViewProperties) {
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
                                     label="Publication date"
-                                    value={dayjs(publicationDate)}
-                                    onChange={value => setPublicationDate(value?.toDate() ?? new Date())}
+                                    value={dayjs(changes.publicationDate)}
+                                    onChange={value => setChanges({
+                                        ...changes,
+                                        publicationDate: value?.format('YYYY-MM-DDT00:00:00') ?? null
+                                    })}
                                 />
                             </LocalizationProvider>
                         </ListItem>

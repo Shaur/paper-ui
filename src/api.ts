@@ -4,6 +4,14 @@ import {SeriesFilter} from "./purgatory/model";
 
 let serverUrl = process.env.REACT_APP_SERVER_URL
 
+enum Request {
+    GET,
+    PUT,
+    DELETE,
+    POST,
+    PATCH
+}
+
 function _headers() {
     let token = localStorage.getItem("token")
     return {headers: {"Authorization": "Bearer " + token}}
@@ -29,14 +37,6 @@ function _request(type: Request, url: string, callback: (data: any) => void, bod
             break;
         }
     }
-}
-
-enum Request {
-    GET,
-    PUT,
-    DELETE,
-    POST,
-    PATCH
 }
 
 export function getPurgatoryItems(callback: (data: any) => void) {
