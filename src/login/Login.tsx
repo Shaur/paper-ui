@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, ListItem, Stack, TextField} from "@mui/material";
+import {Box, Button, Stack, TextField} from "@mui/material";
 import axios from "axios";
 
 interface LoginProps {
@@ -27,19 +27,15 @@ function Login(props: LoginProps) {
     }
 
     return (
-        <Stack direction="column" spacing={1}>
-            <ListItem>
+        <Box sx={{minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <Stack direction="column" spacing={1}>
                 <TextField id="username" label="Username" variant="outlined" value={username}
                            onChange={(data) => setUsername(data.currentTarget.value)}/>
-            </ListItem>
-            <ListItem>
                 <TextField id="password" label="Password" variant="outlined" type="password" value={password}
                            onChange={(data) => setPassword(data.currentTarget.value)}/>
-            </ListItem>
-            <ListItem>
                 <Button color="primary" onClick={login}>Sign In</Button>
-            </ListItem>
-        </Stack>
+            </Stack>
+        </Box>
     )
 }
 
