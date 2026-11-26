@@ -96,7 +96,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                 <Stack direction="column" spacing={1}>
                     <ListItem key={pagesCount}>
                         <img
-                            src={`${import.meta.env.VITE_SERVER_URL}/private/comics/purgatory/file/${props.item.id}/0`}
+                            src={`${import.meta.env.VITE_SERVER_URL}/purgatory/file/${props.item.id}/0`}
                             alt="cover"
                             className='Сover'
                         />
@@ -228,7 +228,7 @@ export default function PurgatoryItem(props: PurgatoryItemProps) {
                             }}
                         >
                             <img
-                                src={`${import.meta.env.VITE_SERVER_URL}/private/comics/purgatory/file/${id}/${item}?size=SMALL`}
+                                src={`${import.meta.env.VITE_SERVER_URL}/purgatory/file/${id}/${item}?size=SMALL`}
                                 alt="cover"
                                 width={150}
                                 key={item}
